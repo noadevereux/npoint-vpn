@@ -111,18 +111,18 @@ npoint-vpn is user-friendly, feature-rich and reliable. It lets you to create di
 Run the following command to install npoint-vpn with SQLite database:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/noadevereux/npoint-scripts/raw/master/npoint.sh)" @ install
+sudo bash -c "$(curl -sL https://github.com/noadevereux/npoint-scripts/raw/master/nexpoint.sh)" @ install
 ```
 
 Run the following command to install npoint-vpn with MySQL database:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/noadevereux/npoint-scripts/raw/master/npoint.sh)" @ install --database mysql
+sudo bash -c "$(curl -sL https://github.com/noadevereux/npoint-scripts/raw/master/nexpoint.sh)" @ install --database mysql
 ```
 
 Run the following command to install npoint-vpn with MariaDB database:
 ```bash
-sudo bash -c "$(curl -sL https://github.com/noadevereux/npoint-scripts/raw/master/npoint.sh)" @ install --database mariadb
+sudo bash -c "$(curl -sL https://github.com/noadevereux/npoint-scripts/raw/master/nexpoint.sh)" @ install --database mariadb
 ```
 
 Once the installation is complete:
@@ -348,7 +348,7 @@ npoint-vpn's backup service efficiently zips all necessary files and sends them 
 
 Install the Latest Version of npoint-vpn Command:
 ```bash
-sudo bash -c "$(curl -sL https://github.com/noadevereux/npoint-scripts/raw/master/npoint.sh)" @ install-script
+sudo bash -c "$(curl -sL https://github.com/noadevereux/npoint-scripts/raw/master/nexpoint.sh)" @ install-script
 ```
 
 Setup the Backup Service:
