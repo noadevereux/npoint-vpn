@@ -53,7 +53,7 @@ export type User = {
   online_at: string;
 };
 
-export type UserCreate = (Pick<
+export type UserCreate = Pick<
   User,
   | "inbounds"
   | "proxies"
