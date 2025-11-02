@@ -256,11 +256,11 @@ export const UsersTable: FC<UsersTableProps> = (props) => {
                 pl={4}
                 pr={4}
                 cursor={"pointer"}
-                onClick={handleSort.bind(null, "username")}
+                onClick={handleSort.bind(null, "email")}
               >
                 <HStack>
                   <span>{t("users")}</span>
-                  <Sort sort={filters.sort} column="username" />
+                  <Sort sort={filters.sort} column="email" />
                 </HStack>
               </Th>
               <Th
@@ -341,7 +341,7 @@ export const UsersTable: FC<UsersTableProps> = (props) => {
             {!useTable &&
               users?.map((user, i) => {
                 return (
-                  <Fragment key={user.username}>
+                  <Fragment key={user.email || user.username}>
                     <Tr
                       onClick={toggleAccordion.bind(null, i)}
                       cursor="pointer"
@@ -355,7 +355,20 @@ export const UsersTable: FC<UsersTableProps> = (props) => {
                       >
                         <div className="flex-status">
                           <OnlineBadge lastOnline={user.online_at} />
-                          <Text isTruncated>{user.username}</Text>
+                          <VStack alignItems="flex-start" spacing={0} maxW="full">
+                            <Text isTruncated>{user.email || user.username}</Text>
+                            {user.username && user.username !== user.email && (
+                              <Text
+                                fontSize="xs"
+                                color="gray.500"
+                                _dark={{ color: "gray.400" }}
+                                isTruncated
+                                maxW="full"
+                              >
+                                {user.username}
+                              </Text>
+                            )}
+                          </VStack>
                         </div>
                       </Td>
                       <Td borderBottom={0} minW="50px" pl={0} pr={0}>
@@ -497,11 +510,11 @@ export const UsersTable: FC<UsersTableProps> = (props) => {
               top={{ base: "unset", md: top }}
               minW="140px"
               cursor={"pointer"}
-              onClick={handleSort.bind(null, "username")}
+              onClick={handleSort.bind(null, "email")}
             >
               <HStack>
-                <span>{t("username")}</span>
-                <Sort sort={filters.sort} column="username" />
+                <span>{t("email")}</span>
+                <Sort sort={filters.sort} column="email" />
               </HStack>
             </Th>
             <Th
@@ -584,7 +597,7 @@ export const UsersTable: FC<UsersTableProps> = (props) => {
             users?.map((user, i) => {
               return (
                 <Tr
-                  key={user.username}
+                  key={user.email || user.username}
                   className={classNames("interactive", {
                     "last-row": i === users.length - 1,
                   })}
@@ -593,7 +606,19 @@ export const UsersTable: FC<UsersTableProps> = (props) => {
                   <Td minW="140px">
                     <div className="flex-status">
                       <OnlineBadge lastOnline={user.online_at} />
-                      {user.username}
+                      <VStack alignItems="flex-start" spacing={0} maxW="full">
+                        <Text isTruncated>{user.email || user.username}</Text>
+                        {user.username && user.username !== user.email && (
+                          <Text
+                            fontSize="xs"
+                            color="gray.500"
+                            _dark={{ color: "gray.400" }}
+                            isTruncated
+                          >
+                            {user.username}
+                          </Text>
+                        )}
+                      </VStack>
                       <OnlineStatus lastOnline={user.online_at} />
                     </div>
                   </Td>

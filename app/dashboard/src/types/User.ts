@@ -43,6 +43,7 @@ export type User = {
   on_hold_expire_duration: number | null;
   lifetime_used_traffic: number;
   username: string;
+  email: string | null;
   used_traffic: number;
   status: Status;
   links: string[];
@@ -63,7 +64,7 @@ export type UserCreate = Pick<
   | "username"
   | "status"
   | "note"
->;
+> & { email: string };
 
 export type UserApi = {
   discord_webook: string;

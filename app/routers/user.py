@@ -32,7 +32,8 @@ def add_user(
     """
     Add a new user
 
-    - **username**: 3 to 32 characters, can include a-z, 0-9, and underscores.
+    - **email**: Valid email address required. Used as the primary identifier for the user.
+    - **username**: 3 to 32 characters, can include a-z, 0-9, and underscores. Auto-generated if not provided.
     - **status**: User's status, defaults to `active`. Special rules if `on_hold`.
     - **expire**: UTC timestamp for account expiration. Use `0` for unlimited.
     - **data_limit**: Max data usage in bytes (e.g., `1073741824` for 1GB). `0` means unlimited.
@@ -65,17 +66,17 @@ def add_user(
     bg.add_task(xray.operations.add_user, dbuser=dbuser)
     user = UserResponse.model_validate(dbuser)
     report.user_created(user=user, user_id=dbuser.id, by=admin, user_admin=dbuser.admin)
-    logger.info(f'New user "{dbuser.username}" added')
+    logger.info(f'New user "{dbuser.email or dbuser.username}" added')
     return user
 
 
-@router.get("/user/{username}", response_model=UserResponse, responses={403: responses._403, 404: responses._404})
+@router.get("/user/{email}", response_model=UserResponse, responses={403: responses._403, 404: responses._404})
 def get_user(dbuser: UserResponse = Depends(get_validated_user)):
     """Get user information"""
     return dbuser
 
 
-@router.put("/user/{username}", response_model=UserResponse, responses={400: responses._400, 403: responses._403, 404: responses._404})
+@router.put("/user/{email}", response_model=UserResponse, responses={400: responses._400, 403: responses._403, 404: responses._404})
 def modify_user(
     modified_user: UserModify,
     bg: BackgroundTasks,
@@ -86,7 +87,7 @@ def modify_user(
     """
     Modify an existing user
 
-    - **username**: Cannot be changed. Used to identify the user.
+    - **email**: Optional new email address. Used to identify the user.
     - **status**: User's new status. Can be 'active', 'disabled', 'on_hold', 'limited', or 'expired'.
     - **expire**: UTC timestamp for new account expiration. Set to `0` for unlimited, `null` for no change.
     - **data_limit**: New max data usage in bytes (e.g., `1073741824` for 1GB). Set to `0` for unlimited, `null` for no change.
@@ -129,15 +130,16 @@ def modify_user(
             user=user,
             user_admin=dbuser.admin,
             by=admin,
+            user_email=user.email,
         )
         logger.info(
-            f'User "{dbuser.username}" status changed from {old_status} to {user.status}'
+            f'User "{dbuser.email or dbuser.username}" status changed from {old_status} to {user.status}'
         )
 
     return user
 
 
-@router.delete("/user/{username}", responses={403: responses._403, 404: responses._404})
+@router.delete("/user/{email}", responses={403: responses._403, 404: responses._404})
 def remove_user(
     bg: BackgroundTasks,
     db: Session = Depends(get_db),
@@ -145,18 +147,24 @@ def remove_user(
     admin: Admin = Depends(Admin.get_current),
 ):
     """Remove a user"""
+    user_snapshot = UserResponse.model_validate(dbuser)
     crud.remove_user(db, dbuser)
     bg.add_task(xray.operations.remove_user, dbuser=dbuser)
 
     bg.add_task(
-        report.user_deleted, username=dbuser.username, user_admin=Admin.model_validate(dbuser.admin), by=admin
+        report.user_deleted,
+        username=dbuser.username,
+        user_email=user_snapshot.email,
+        user_admin=Admin.model_validate(dbuser.admin),
+        by=admin,
+        user=user_snapshot,
     )
 
-    logger.info(f'User "{dbuser.username}" deleted')
+    logger.info(f'User "{user_snapshot.email or user_snapshot.username}" deleted')
     return {"detail": "User successfully deleted"}
 
 
-@router.post("/user/{username}/reset", response_model=UserResponse, responses={403: responses._403, 404: responses._404})
+@router.post("/user/{email}/reset", response_model=UserResponse, responses={403: responses._403, 404: responses._404})
 def reset_user_data_usage(
     bg: BackgroundTasks,
     db: Session = Depends(get_db),
@@ -173,11 +181,11 @@ def reset_user_data_usage(
         report.user_data_usage_reset, user=user, user_admin=dbuser.admin, by=admin
     )
 
-    logger.info(f'User "{dbuser.username}"\'s usage was reset')
+    logger.info(f'User "{dbuser.email or dbuser.username}"\'s usage was reset')
     return dbuser
 
 
-@router.post("/user/{username}/revoke_sub", response_model=UserResponse, responses={403: responses._403, 404: responses._404})
+@router.post("/user/{email}/revoke_sub", response_model=UserResponse, responses={403: responses._403, 404: responses._404})
 def revoke_user_subscription(
     bg: BackgroundTasks,
     db: Session = Depends(get_db),
@@ -194,7 +202,7 @@ def revoke_user_subscription(
         report.user_subscription_revoked, user=user, user_admin=dbuser.admin, by=admin
     )
 
-    logger.info(f'User "{dbuser.username}" subscription revoked')
+    logger.info(f'User "{dbuser.email or dbuser.username}" subscription revoked')
 
     return user
 
@@ -203,7 +211,7 @@ def revoke_user_subscription(
 def get_users(
     offset: int = None,
     limit: int = None,
-    username: List[str] = Query(None),
+    emails: List[str] = Query(None),
     search: Union[str, None] = None,
     owner: Union[List[str], None] = Query(None, alias="admin"),
     status: UserStatus = None,
@@ -228,7 +236,7 @@ def get_users(
         offset=offset,
         limit=limit,
         search=search,
-        usernames=username,
+        emails=emails,
         status=status,
         sort=sort,
         admins=owner if admin.is_sudo else [admin.username],
@@ -253,7 +261,7 @@ def reset_users_data_usage(
     return {"detail": "Users successfully reset."}
 
 
-@router.get("/user/{username}/usage", response_model=UserUsagesResponse, responses={403: responses._403, 404: responses._404})
+@router.get("/user/{email}/usage", response_model=UserUsagesResponse, responses={403: responses._403, 404: responses._404})
 def get_user_usage(
     dbuser: UserResponse = Depends(get_validated_user),
     start: str = "",
@@ -265,10 +273,10 @@ def get_user_usage(
 
     usages = crud.get_user_usages(db, dbuser, start, end)
 
-    return {"usages": usages, "username": dbuser.username}
+    return {"usages": usages, "username": dbuser.username, "email": dbuser.email}
 
 
-@router.post("/user/{username}/active-next", response_model=UserResponse, responses={403: responses._403, 404: responses._404})
+@router.post("/user/{email}/active-next", response_model=UserResponse, responses={403: responses._403, 404: responses._404})
 def active_next_plan(
     bg: BackgroundTasks,
     db: Session = Depends(get_db),
@@ -291,7 +299,7 @@ def active_next_plan(
         report.user_data_reset_by_next, user=user, user_admin=dbuser.admin,
     )
 
-    logger.info(f'User "{dbuser.username}"\'s usage was reset by next plan')
+    logger.info(f'User "{dbuser.email or dbuser.username}"\'s usage was reset by next plan')
     return dbuser
 
 
@@ -313,7 +321,7 @@ def get_users_usage(
     return {"usages": usages}
 
 
-@router.put("/user/{username}/set-owner", response_model=UserResponse)
+@router.put("/user/{email}/set-owner", response_model=UserResponse)
 def set_owner(
     admin_username: str,
     dbuser: UserResponse = Depends(get_validated_user),
@@ -352,7 +360,7 @@ def get_expired_users(
     expired_after, expired_before = validate_dates(expired_after, expired_before)
 
     expired_users = get_expired_users_list(db, admin, expired_after, expired_before)
-    return [u.username for u in expired_users]
+    return [u.email or u.username for u in expired_users]
 
 
 @router.delete("/users/expired", response_model=List[str])
@@ -373,24 +381,24 @@ def delete_expired_users(
     expired_after, expired_before = validate_dates(expired_after, expired_before)
 
     expired_users = get_expired_users_list(db, admin, expired_after, expired_before)
-    removed_users = [u.username for u in expired_users]
+    user_snapshots = [UserResponse.model_validate(u) for u in expired_users]
 
-    if not removed_users:
+    if not user_snapshots:
         raise HTTPException(
             status_code=404, detail="No expired users found in the specified date range"
         )
 
     crud.remove_users(db, expired_users)
 
-    for removed_user in removed_users:
-        logger.info(f'User "{removed_user}" deleted')
+    for snapshot in user_snapshots:
+        logger.info(f'User "{snapshot.email or snapshot.username}" deleted')
         bg.add_task(
             report.user_deleted,
-            username=removed_user,
-            user_admin=next(
-                (u.admin for u in expired_users if u.username == removed_user), None
-            ),
+            username=snapshot.username,
+            user_email=snapshot.email,
+            user_admin=Admin.model_validate(snapshot.admin) if snapshot.admin else None,
             by=admin,
+            user=snapshot,
         )
 
-    return removed_users
+    return [snap.email or snap.username for snap in user_snapshots]

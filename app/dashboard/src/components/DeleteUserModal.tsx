@@ -43,7 +43,7 @@ export const DeleteUserModal: FC<DeleteUserModalProps> = () => {
       deleteUser(user)
         .then(() => {
           toast({
-            title: t("deleteUser.deleteSuccess", { username: user.username }),
+            title: t("deleteUser.deleteSuccess", { email: user.email || user.username }),
             status: "success",
             isClosable: true,
             position: "top",
@@ -76,7 +76,7 @@ export const DeleteUserModal: FC<DeleteUserModalProps> = () => {
               color="gray.600"
             >
               <Trans components={{ b: <b /> }}>
-                {t("deleteUser.prompt", { username: user.username })}
+                {t("deleteUser.prompt", { email: user.email || user.username })}
               </Trans>
             </Text>
           )}

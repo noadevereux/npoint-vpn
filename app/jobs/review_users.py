@@ -84,7 +84,8 @@ def review():
             update_user_status(db, user, status)
 
             report.status_change(username=user.username, status=status,
-                                 user=UserResponse.model_validate(user), user_admin=user.admin)
+                                 user=UserResponse.model_validate(user), user_admin=user.admin,
+                                 user_email=user.email)
 
             logger.info(f"User \"{user.username}\" status changed to {status}")
 
@@ -110,7 +111,8 @@ def review():
             start_user_expire(db, user)
 
             report.status_change(username=user.username, status=status,
-                                 user=UserResponse.model_validate(user), user_admin=user.admin)
+                                 user=UserResponse.model_validate(user), user_admin=user.admin,
+                                 user_email=user.email)
 
             logger.info(f"User \"{user.username}\" status changed to {status}")
 

@@ -4,7 +4,7 @@ from datetime import datetime
 from enum import Enum
 from typing import Dict, List, Optional, Union
 
-from pydantic import BaseModel, ConfigDict, Field, field_validator, model_validator
+from pydantic import BaseModel, ConfigDict, EmailStr, Field, field_validator, model_validator
 
 from app import xray
 from app.models.admin import Admin
@@ -57,6 +57,7 @@ class NextPlanModel(BaseModel):
 
 
 class User(BaseModel):
+    email: Optional[EmailStr] = Field(None, nullable=True)
     proxies: Dict[ProxyTypes, ProxySettings] = {}
     expire: Optional[int] = Field(None, nullable=True)
     data_limit: Optional[int] = Field(
@@ -122,10 +123,12 @@ class User(BaseModel):
 
 
 class UserCreate(User):
+    email: EmailStr
     username: str
     status: UserStatusCreate = None
     model_config = ConfigDict(json_schema_extra={
         "example": {
+            "email": "user@example.com",
             "username": "user1234",
             "proxies": {
                 "vmess": {"id": "35e4e39c-7d5c-4f4b-8b71-558e4f37ff53"},
@@ -204,6 +207,7 @@ class UserCreate(User):
 
 
 class UserModify(User):
+    email: Optional[EmailStr] = None
     status: UserStatusModify = None
     data_limit_reset_strategy: UserDataLimitResetStrategy = None
     model_config = ConfigDict(json_schema_extra={
@@ -280,6 +284,7 @@ class UserModify(User):
 
 
 class UserResponse(User):
+    email: Optional[EmailStr] = None
     username: str
     status: UserStatus
     used_traffic: int
@@ -306,7 +311,7 @@ class UserResponse(User):
         if not self.subscription_url:
             salt = secrets.token_hex(8)
             url_prefix = (XRAY_SUBSCRIPTION_URL_PREFIX).replace('*', salt)
-            token = create_subscription_token(self.username)
+            token = create_subscription_token(self.email or self.username)
             self.subscription_url = f"{url_prefix}/{XRAY_SUBSCRIPTION_PATH}/{token}"
         return self
 

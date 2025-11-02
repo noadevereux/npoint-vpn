@@ -92,6 +92,7 @@ export type FormType = Pick<UserCreate, keyof UserCreate> & {
 const formatUser = (user: User): FormType => {
   return {
     ...user,
+    email: user.email ?? "",
     data_limit: user.data_limit
       ? Number((user.data_limit / 1073741824).toFixed(5))
       : user.data_limit,
@@ -111,6 +112,7 @@ const getDefaultValues = (): FormType => {
     selected_proxies: Object.keys(defaultInbounds) as ProxyKeys,
     data_limit: null,
     expire: null,
+    email: "",
     username: "",
     data_limit_reset_strategy: "no_reset",
     status: "active",
@@ -144,6 +146,7 @@ const mergeProxies = (
 };
 
 const baseSchema = {
+  email: z.string().trim().min(1, { message: "Required" }).email({ message: "userDialog.invalidEmail" }),
   username: z.string().min(1, { message: "Required" }),
   selected_proxies: z.array(z.string()).refine((value) => value.length > 0, {
     message: "userDialog.selectOneProtocol",
@@ -313,7 +316,7 @@ export const UserDialog: FC<UserDialogProps> = () => {
         toast({
           title: t(
             isEditing ? "userDialog.userEdited" : "userDialog.userCreated",
-            { username: values.username }
+            { email: values.email || values.username }
           ),
           status: "success",
           isClosable: true,
@@ -412,6 +415,17 @@ export const UserDialog: FC<UserDialogProps> = () => {
               >
                 <GridItem>
                   <VStack justifyContent="space-between">
+                    <FormControl mb={"10px"}>
+                      <FormLabel>{t("email")}</FormLabel>
+                      <Input
+                        size="sm"
+                        type="email"
+                        borderRadius="6px"
+                        error={form.formState.errors.email?.message}
+                        disabled={disabled}
+                        {...form.register("email")}
+                      />
+                    </FormControl>
                     <Flex
                       flexDirection="column"
                       gridAutoRows="min-content"

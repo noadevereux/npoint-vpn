@@ -41,7 +41,7 @@ export const RevokeSubscriptionModal: FC<RevokeSubscriptionModalProps> = () => {
       revokeSubscription(user)
         .then(() => {
           toast({
-            title: t("revokeUserSub.success", { username: user.username }),
+            title: t("revokeUserSub.success", { email: user.email || user.username }),
             status: "success",
             isClosable: true,
             position: "top",
@@ -84,7 +84,7 @@ export const RevokeSubscriptionModal: FC<RevokeSubscriptionModalProps> = () => {
               color="gray.600"
             >
               <Trans components={{ b: <b /> }}>
-                {t("revokeUserSub.prompt", { username: user.username })}
+                {t("revokeUserSub.prompt", { email: user.email || user.username })}
               </Trans>
             </Text>
           )}
