@@ -1,4 +1,4 @@
-# Dashboard UI for marzban
+# Dashboard UI for nexpoint
 
 ## Requirements
 
@@ -11,7 +11,7 @@ This project has been developed on the Nodejs v16.17.0 so if you faced any issue
 
 ## Install
 
-    git clone https://github.com/gozargah/marz-manager.git
+    git clone https://github.com/noadevereux/marz-manager.git
     cd marz-manager
     yarn install
 
@@ -25,7 +25,7 @@ Copy `example.env` to `.env` then set the backend api address:
 
 | Name          | Description                                                                          |
 | ------------- | ------------------------------------------------------------------------------------ |
-| VITE_BASE_API | The api url of the deployed backend ([Marzban](https://github.com/gozargah/Marzban)) |
+| VITE_BASE_API | The api url of the deployed backend ([Nexpoint](https://github.com/noadevereux/Nexpoint)) |
 
 ## Start development server
 
