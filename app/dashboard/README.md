@@ -1,4 +1,4 @@
-# Dashboard UI for nexpoint
+# Dashboard UI for npoint-vpn
 
 ## Requirements
 
@@ -25,7 +25,7 @@ Copy `example.env` to `.env` then set the backend api address:
 
 | Name          | Description                                                                          |
 | ------------- | ------------------------------------------------------------------------------------ |
-| VITE_BASE_API | The api url of the deployed backend ([Nexpoint](https://github.com/noadevereux/Nexpoint)) |
+| VITE_BASE_API | The api url of the deployed backend ([npoint-vpn](https://github.com/noadevereux/npoint-vpn)) |
 
 ## Start development server
 

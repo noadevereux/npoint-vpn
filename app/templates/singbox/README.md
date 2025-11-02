@@ -50,9 +50,9 @@ Now, change these variables with your files' names.
 SINGBOX_SUBSCRIPTION_TEMPLATE="singbox/default.json"
 SINGBOX_SETTINGS_TEMPLATE="singbox/settings.json"
 ```
-Now, restart your Nexpoint and enjoy.
+Now, restart your npoint-vpn and enjoy.
 
-If you have already changed your env variables, and you want to just update the template files, there is no need to restart Nexpoint.
+If you have already changed your env variables, and you want to just update the template files, there is no need to restart npoint-vpn.
 
 ## Docs
 you can use sing-box official documentation to find out how to modify template files

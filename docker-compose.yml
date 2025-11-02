@@ -1,6 +1,6 @@
 services:
   nexpoint:
-    image: noadevereux/nexpoint:latest
+    image: noadevereux/npoint-vpn:latest
     restart: always
     env_file: .env
     network_mode: host

@@ -1,8 +1,8 @@
 #!/bin/bash
 
 SERVICE_NAME="nexpoint"
-SERVICE_DESCRIPTION="Nexpoint Service"
-SERVICE_DOCUMENTATION="https://github.com/noadevereux/nexpoint"
+SERVICE_DESCRIPTION="npoint-vpn Service"
+SERVICE_DOCUMENTATION="https://github.com/noadevereux/npoint-vpn"
 MAIN_PY_PATH="$PWD/main.py"
 SERVICE_FILE="/etc/systemd/system/$SERVICE_NAME.service"
 

@@ -800,7 +800,7 @@ class V2rayJsonConfig(str):
                         {
                             "id": id,
                             "alterId": 0,
-                            "email": "https://noadevereux.github.io/nexpoint/",
+                            "email": "https://noadevereux.github.io/npoint/",
                             "security": "auto"
                         }
                     ],
@@ -820,7 +820,7 @@ class V2rayJsonConfig(str):
                             "id": id,
                             "security": "auto",
                             "encryption": "none",
-                            "email": "https://noadevereux.github.io/nexpoint/",
+                            "email": "https://noadevereux.github.io/npoint/",
                             "alterId": 0,
                             "flow": flow
                         }
@@ -837,7 +837,7 @@ class V2rayJsonConfig(str):
                     "address": address,
                     "port": port,
                     "password": password,
-                    "email": "https://noadevereux.github.io/nexpoint/",
+                    "email": "https://noadevereux.github.io/npoint/",
                 }
             ]
         }
@@ -850,7 +850,7 @@ class V2rayJsonConfig(str):
                     "address": address,
                     "port": port,
                     "password": password,
-                    "email": "https://noadevereux.github.io/nexpoint/",
+                    "email": "https://noadevereux.github.io/npoint/",
                     "method": method,
                     "uot": False,
                 }
