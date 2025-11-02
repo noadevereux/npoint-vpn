@@ -55,7 +55,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
           push: true
           tags: |
-            noadevereux/nexpoint:latest
-            noadevereux/nexpoint:${{github.ref_name}}
-            ghcr.io/noadevereux/nexpoint:latest
-            ghcr.io/noadevereux/nexpoint:${{github.ref_name}}
+            inlovewithxanny/npoint-vpn:latest
+            inlovewithxanny/npoint-vpn:${{github.ref_name}}
+            ghcr.io/noadevereux/npoint-vpn:latest
+            ghcr.io/noadevereux/npoint-vpn:${{github.ref_name}}
