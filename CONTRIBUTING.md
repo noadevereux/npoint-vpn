@@ -4,7 +4,7 @@ Thanks for considering contributing to Nexpoint!
 ## Questions
 
 Please don't ask your questions in issues. Instead, use one of the following ways to ask:
-- Ask on our telegram group: [@Gozargah_Nexpoint](https://t.me/gozargah_nexpoint)
+- Ask on our telegram group: [@noadevereux_Nexpoint](https://t.me/gozargah_nexpoint)
 - Ask on our [GitHub Discussions](https://github.com/gozargah/nexpoint/discussions) for long term discussion or larger questions.
 
 

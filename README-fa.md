@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
-      <img width="160" height="160" src="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/logo-light.png">
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
+      <img width="160" height="160" src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-light.png">
     </picture>
   </a>
 </p>
@@ -55,7 +55,7 @@
 
 <p align="center">
   <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer" >
-    <img src="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Elk screenshots" width="600" height="auto">
+    <img src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Elk screenshots" width="600" height="auto">
   </a>
 </p>
 
@@ -109,18 +109,18 @@
 با دستور زیر مرزبان را با دیتابیس SQLite نصب کنید:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install
 ```
 
 با دستور زیر مرزبان را با دیتابیس MySQL نصب کنید:
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mysql
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mysql
 ```
 
 با دستور زیر مرزبان را با دیتابیس MariaDB نصب کنید:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mariadb
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mariadb
 ```
 
 وقتی نصب تمام شد:
@@ -170,7 +170,7 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
 پروژه را clone کنید و dependency ها را نصب کنید. دقت کنید که نسخه پایتون شما Python>=3.8 باشد.
 
 ```bash
-git clone https://github.com/Gozargah/Nexpoint.git
+git clone https://github.com/noadevereux/Nexpoint.git
 cd Nexpoint
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python3 -
 python3 -m pip install -r requirements.txt
@@ -299,7 +299,7 @@ server {
 
 
 # داکیومنت
-[داکیومنت مرزبان](https://gozargah.github.io/nexpoint) تمامی آموزش‌های ضروری برای شروع را فراهم می‌کند و در سه زبان فارسی، انگلیسی و روسی در دسترس است. این داکیومنت نیاز به تلاش زیادی دارد تا تمامی جنبه‌های پروژه را به طور کامل پوشش دهد. ما از کمک و همکاری شما برای بهبود آن استقبال و قدردانی می‌کنیم. می‌توانید در این صفحه [گیت‌هاب](https://github.com/Gozargah/gozargah.github.io) مشارکت کنید.
+[داکیومنت مرزبان](https://gozargah.github.io/nexpoint) تمامی آموزش‌های ضروری برای شروع را فراهم می‌کند و در سه زبان فارسی، انگلیسی و روسی در دسترس است. این داکیومنت نیاز به تلاش زیادی دارد تا تمامی جنبه‌های پروژه را به طور کامل پوشش دهد. ما از کمک و همکاری شما برای بهبود آن استقبال و قدردانی می‌کنیم. می‌توانید در این صفحه [گیت‌هاب](https://github.com/noadevereux/gozargah.github.io) مشارکت کنید.
 
 # استفاده از API
 مرزبان به توسعه دهندگانAPI REST ارائه می دهد. برای مشاهده اسناد API در قالب Swagger UI یا ReDoc، متغیر `DOCS=True` را در تنظیمات خود ست کنید و در مرورگر به مسیر `/docs` و `/redoc` بروید.
@@ -315,7 +315,7 @@ server {
 
 نصب آخرین ورژن مرزبان کامند:
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install-script
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install-script
 ```
 
 راه‌اندازی سرویس پشتیبان گیری:
@@ -410,8 +410,8 @@ Body:
 با تشکر از همه همکارانی که به بهبود مرزبان کمک کردند:
 </p>
 <p align="center">
-<a href="https://github.com/Gozargah/Nexpoint/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Gozargah/Nexpoint" />
+<a href="https://github.com/noadevereux/Nexpoint/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=noadevereux/Nexpoint" />
 </a>
 </p>
 <p align="center">

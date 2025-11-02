@@ -1,8 +1,8 @@
 <p align="center">
   <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
-      <img width="160" height="160" src="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/logo-light.png">
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
+      <img width="160" height="160" src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-light.png">
     </picture>
   </a>
 </p>
@@ -55,7 +55,7 @@
 
 <p align="center">
   <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer" >
-    <img src="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Nexpoint screenshots" width="600" height="auto">
+    <img src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Nexpoint screenshots" width="600" height="auto">
   </a>
 </p>
 
@@ -111,18 +111,18 @@ Nexpoint удобен в использовании, многофункцион�
 Установка Nexpoint с базой данных SQLite (по умолчанию):
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install
 ```
 
 Установка Nexpoint с базой данных MySQL:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mysql
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mysql
 ```
 
 Установка Nexpoint с базой данных MariaDB:
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mariadb
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mariadb
 ```
 
 Когда установка будет завершена:
@@ -172,7 +172,7 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
 Клонируйте этот проект и установите зависимости (Вам нужен Python >= 3.8):
 
 ```bash
-git clone https://github.com/Gozargah/Nexpoint.git
+git clone https://github.com/noadevereux/Nexpoint.git
 cd Nexpoint
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python3 -
 python3 -m pip install -r requirements.txt
@@ -327,7 +327,7 @@ server {
 
 # документация
 
-[Документация Nexpoint](https://gozargah.github.io/nexpoint/ru/) предоставляет все необходимые руководства для начала работы и доступна на трех языках: фарси, английском и русском. Для полного охвата всех аспектов проекта требуется значительное количество усилий. Мы приветствуем и ценим ваш вклад в улучшение документации. Вы можете внести свой вклад в этот [репозиторий на GitHub](https://github.com/Gozargah/gozargah.github.io).
+[Документация Nexpoint](https://gozargah.github.io/nexpoint/ru/) предоставляет все необходимые руководства для начала работы и доступна на трех языках: фарси, английском и русском. Для полного охвата всех аспектов проекта требуется значительное количество усилий. Мы приветствуем и ценим ваш вклад в улучшение документации. Вы можете внести свой вклад в этот [репозиторий на GitHub](https://github.com/noadevereux/gozargah.github.io).
 
 # API
 
@@ -356,7 +356,7 @@ Nexpoint поставляется с встроенным ботом Telegram, �
 Установка последней версии Nexpoint:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install-script
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install-script
 ```
 
 Настройка сервиса резервного копирования:
@@ -442,8 +442,8 @@ Body:
 Спасибо всем участникам, благодаря которым Nexpoint становится лучше:
 </p>
 <p align="center">
-<a href="https://github.com/Gozargah/Nexpoint/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Gozargah/Nexpoint" />
+<a href="https://github.com/noadevereux/Nexpoint/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=noadevereux/Nexpoint" />
 </a>
 </p>
 <p align="center">
