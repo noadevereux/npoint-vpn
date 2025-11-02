@@ -35,6 +35,7 @@ class Notification(BaseModel):
 
 class UserNotification(Notification):
     username: str
+    email: str | None = None
 
 
 class ReachedUsagePercent(UserNotification):

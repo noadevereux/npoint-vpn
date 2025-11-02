@@ -43,7 +43,7 @@ export const ResetUserUsageModal: FC<DeleteUserModalProps> = () => {
       resetDataUsage(user)
         .then(() => {
           toast({
-            title: t("resetUserUsage.success", {username: user.username}),
+            title: t("resetUserUsage.success", { email: user.email || user.username }),
             status: "success",
             isClosable: true,
             position: "top",
@@ -85,9 +85,8 @@ export const ResetUserUsageModal: FC<DeleteUserModalProps> = () => {
               _dark={{ color: "gray.400" }}
               color="gray.600"
             >
-              <Trans
-                components={{b: <b /> }}>
-                {t("resetUserUsage.prompt", {username: user.username})}
+              <Trans components={{ b: <b /> }}>
+                {t("resetUserUsage.prompt", { email: user.email || user.username })}
               </Trans>
             </Text>
           )}

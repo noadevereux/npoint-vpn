@@ -4,7 +4,7 @@ Functions for managing proxy hosts, users, user templates, nodes, and administra
 
 from datetime import datetime, timedelta
 from enum import Enum
-from typing import Dict, List, Optional, Tuple, Union
+from typing import Any, Dict, List, Optional, Tuple, Union
 
 from sqlalchemy import and_, delete, func, or_
 from sqlalchemy.orm import Query, Session, joinedload
@@ -15,6 +15,8 @@ from app.db.models import (
     TLS,
     Admin,
     AdminUsageLogs,
+    EmailNotificationPreference,
+    EmailSMTPSettings,
     NextPlan,
     Node,
     NodeUsage,
@@ -32,6 +34,7 @@ from app.db.models import (
 from app.models.admin import AdminCreate, AdminModify, AdminPartialModify
 from app.models.node import NodeCreate, NodeModify, NodeStatus, NodeUsageResponse
 from app.models.proxy import ProxyHost as ProxyHostModify
+from app.models.email_notification import EmailNotificationTrigger
 from app.models.user import (
     ReminderType,
     UserCreate,
@@ -179,18 +182,22 @@ def get_user_queryset(db: Session) -> Query:
     return db.query(User).options(joinedload(User.admin)).options(joinedload(User.next_plan))
 
 
-def get_user(db: Session, username: str) -> Optional[User]:
+def get_user(db: Session, identifier: str) -> Optional[User]:
     """
-    Retrieves a user by username.
+    Retrieves a user by email or username.
 
     Args:
         db (Session): Database session.
-        username (str): The username of the user.
+        identifier (str): The email or username of the user.
 
     Returns:
         Optional[User]: The user object if found, else None.
     """
-    return get_user_queryset(db).filter(User.username == username).first()
+    return (
+        get_user_queryset(db)
+        .filter(or_(User.email == identifier, User.username == identifier))
+        .first()
+    )
 
 
 def get_user_by_id(db: Session, user_id: int) -> Optional[User]:
@@ -209,11 +216,13 @@ def get_user_by_id(db: Session, user_id: int) -> Optional[User]:
 
 UsersSortingOptions = Enum('UsersSortingOptions', {
     'username': User.username.asc(),
+    'email': User.email.asc(),
     'used_traffic': User.used_traffic.asc(),
     'data_limit': User.data_limit.asc(),
     'expire': User.expire.asc(),
     'created_at': User.created_at.asc(),
     '-username': User.username.desc(),
+    '-email': User.email.desc(),
     '-used_traffic': User.used_traffic.desc(),
     '-data_limit': User.data_limit.desc(),
     '-expire': User.expire.desc(),
@@ -225,6 +234,7 @@ def get_users(db: Session,
               offset: Optional[int] = None,
               limit: Optional[int] = None,
               usernames: Optional[List[str]] = None,
+              emails: Optional[List[str]] = None,
               search: Optional[str] = None,
               status: Optional[Union[UserStatus, list]] = None,
               sort: Optional[List[UsersSortingOptions]] = None,
@@ -254,10 +264,19 @@ def get_users(db: Session,
     query = get_user_queryset(db)
 
     if search:
-        query = query.filter(or_(User.username.ilike(f"%{search}%"), User.note.ilike(f"%{search}%")))
+        query = query.filter(
+            or_(
+                User.username.ilike(f"%{search}%"),
+                User.email.ilike(f"%{search}%"),
+                User.note.ilike(f"%{search}%"),
+            )
+        )
 
     if usernames:
         query = query.filter(User.username.in_(usernames))
+
+    if emails:
+        query = query.filter(User.email.in_(emails))
 
     if status:
         if isinstance(status, list):
@@ -380,6 +399,7 @@ def create_user(db: Session, user: UserCreate, admin: Admin = None) -> User:
 
     dbuser = User(
         username=user.username,
+        email=user.email,
         proxies=proxies,
         status=user.status,
         data_limit=(user.data_limit or None),
@@ -524,6 +544,9 @@ def update_user(db: Session, dbuser: User, modify: UserModify) -> User:
         )
     elif dbuser.next_plan is not None:
         db.delete(dbuser.next_plan)
+
+    if modify.email is not None:
+        dbuser.email = modify.email
 
     dbuser.edit_at = datetime.utcnow()
 
@@ -1085,6 +1108,66 @@ def reset_admin_usage(db: Session, dbadmin: Admin) -> int:
     db.commit()
     db.refresh(dbadmin)
     return dbadmin
+
+
+def get_email_smtp_settings(db: Session) -> Optional[EmailSMTPSettings]:
+    return db.query(EmailSMTPSettings).order_by(EmailSMTPSettings.id.asc()).first()
+
+
+def upsert_email_smtp_settings(db: Session, data: Dict[str, Any]) -> EmailSMTPSettings:
+    settings = get_email_smtp_settings(db)
+    if not settings:
+        settings = EmailSMTPSettings()
+
+    settings.host = data["host"]
+    settings.port = data["port"]
+    settings.username = data.get("username")
+    settings.use_tls = data.get("use_tls", True)
+    settings.use_ssl = data.get("use_ssl", False)
+    settings.from_email = data["from_email"]
+    settings.from_name = data.get("from_name")
+
+    if "password" in data:
+        settings.password = data.get("password") or None
+    elif not settings.id:
+        settings.password = None
+
+    db.add(settings)
+    db.commit()
+    db.refresh(settings)
+    return settings
+
+
+def get_email_notification_preferences(db: Session) -> List[EmailNotificationPreference]:
+    preferences = db.query(EmailNotificationPreference).all()
+    existing_triggers = {pref.trigger for pref in preferences}
+    missing = [trigger for trigger in EmailNotificationTrigger if trigger not in existing_triggers]
+
+    if missing:
+        for trigger in missing:
+            db.add(EmailNotificationPreference(trigger=trigger, enabled=False))
+        db.commit()
+        preferences = db.query(EmailNotificationPreference).all()
+
+    return preferences
+
+
+def update_email_notification_preferences(
+    db: Session, preferences: Dict[EmailNotificationTrigger, bool]
+) -> List[EmailNotificationPreference]:
+    existing = {pref.trigger: pref for pref in get_email_notification_preferences(db)}
+
+    for trigger, enabled in preferences.items():
+        pref = existing.get(trigger)
+        if pref:
+            pref.enabled = enabled
+        else:
+            pref = EmailNotificationPreference(trigger=trigger, enabled=enabled)
+            db.add(pref)
+            existing[trigger] = pref
+
+    db.commit()
+    return list(existing.values())
 
 
 def create_user_template(db: Session, user_template: UserTemplateCreate) -> UserTemplate:

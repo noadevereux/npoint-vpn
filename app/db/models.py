@@ -22,6 +22,7 @@ from sqlalchemy.sql.expression import select, text
 
 from app import xray
 from app.db.base import Base
+from app.models.email_notification import EmailNotificationTrigger
 from app.models.node import NodeStatus
 from app.models.proxy import (
     ProxyHostALPN,
@@ -63,6 +64,7 @@ class User(Base):
 
     id = Column(Integer, primary_key=True)
     username = Column(String(34, collation='NOCASE'), unique=True, index=True)
+    email = Column(String(255), unique=True, index=True, nullable=True)
     proxies = relationship("Proxy", back_populates="user", cascade="all, delete-orphan")
     status = Column(Enum(UserStatus), nullable=False, default=UserStatus.active)
     used_traffic = Column(BigInteger, default=0)
@@ -350,3 +352,29 @@ class NotificationReminder(Base):
     threshold = Column(Integer, nullable=True)
     expires_at = Column(DateTime, nullable=True)
     created_at = Column(DateTime, default=datetime.utcnow)
+
+
+class EmailSMTPSettings(Base):
+    __tablename__ = "email_smtp_settings"
+
+    id = Column(Integer, primary_key=True)
+    host = Column(String(255), nullable=False)
+    port = Column(Integer, nullable=False, default=587)
+    username = Column(String(255), nullable=True)
+    password = Column(String(255), nullable=True)
+    use_tls = Column(Boolean, default=True, nullable=False)
+    use_ssl = Column(Boolean, default=False, nullable=False)
+    from_email = Column(String(255), nullable=False)
+    from_name = Column(String(255), nullable=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)
+
+
+class EmailNotificationPreference(Base):
+    __tablename__ = "email_notification_preferences"
+
+    id = Column(Integer, primary_key=True)
+    trigger = Column(Enum(EmailNotificationTrigger), unique=True, nullable=False)
+    enabled = Column(Boolean, nullable=False, default=False)
+    created_at = Column(DateTime, default=datetime.utcnow)
+    updated_at = Column(DateTime, default=datetime.utcnow, onupdate=datetime.utcnow)

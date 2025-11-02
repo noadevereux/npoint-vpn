@@ -72,7 +72,11 @@ def get_validated_sub(
     if not sub:
         raise HTTPException(status_code=404, detail="Not Found")
 
-    dbuser = crud.get_user(db, sub['username'])
+    identifier = sub.get('email') or sub.get('username')
+    if not identifier:
+        raise HTTPException(status_code=404, detail="Not Found")
+
+    dbuser = crud.get_user(db, identifier)
     if not dbuser or dbuser.created_at > sub['created_at']:
         raise HTTPException(status_code=404, detail="Not Found")
 
@@ -83,11 +87,11 @@ def get_validated_sub(
 
 
 def get_validated_user(
-        username: str,
+        email: str,
         admin: Admin = Depends(Admin.get_current),
         db: Session = Depends(get_db)
 ) -> UserResponse:
-    dbuser = crud.get_user(db, username)
+    dbuser = crud.get_user(db, email)
     if not dbuser:
         raise HTTPException(status_code=404, detail="User not found")
 

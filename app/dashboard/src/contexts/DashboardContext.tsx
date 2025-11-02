@@ -49,6 +49,7 @@ type DashboardStateType = {
   isResetingAllUsage: boolean;
   resetUsageUser: User | null;
   revokeSubscriptionUser: User | null;
+  isEditingEmailNotifications: boolean;
   isEditingCore: boolean;
   onCreateUser: (isOpen: boolean) => void;
   onEditingUser: (user: User | null) => void;
@@ -68,6 +69,7 @@ type DashboardStateType = {
   onShowingNodesUsage: (isShowingNodesUsage: boolean) => void;
   resetDataUsage: (user: User) => Promise<void>;
   revokeSubscription: (user: User) => Promise<void>;
+  onEditingEmailNotifications: (isOpen: boolean) => void;
 };
 
 const fetchUsers = (query: FilterType): Promise<User[]> => {
@@ -116,8 +118,9 @@ export const useDashboard = create(
     isShowingNodesUsage: false,
     resetUsageUser: null,
     revokeSubscriptionUser: null,
+    isEditingEmailNotifications: false,
     filters: {
-      username: "",
+      search: "",
       limit: getUsersPerPageLimitSize(),
       sort: "-created_at",
     },
@@ -154,7 +157,10 @@ export const useDashboard = create(
     },
     deleteUser: (user: User) => {
       set({ editingUser: null });
-      return fetch(`/user/${user.username}`, { method: "DELETE" }).then(() => {
+      const identifier = encodeURIComponent(user.email ?? user.username);
+      return fetch(`/user/${identifier}`, {
+        method: "DELETE",
+      }).then(() => {
         set({ deletingUser: null });
         get().refetchUsers();
         queryClient.invalidateQueries(StatisticsQueryKey);
@@ -168,25 +174,33 @@ export const useDashboard = create(
       });
     },
     editUser: (body: UserCreate) => {
-      return fetch(`/user/${body.username}`, { method: "PUT", body }).then(
-        () => {
-          get().onEditingUser(null);
-          get().refetchUsers();
-        }
-      );
+      return fetch(`/user/${encodeURIComponent(body.email)}`, {
+        method: "PUT",
+        body,
+      }).then(() => {
+        get().onEditingUser(null);
+        get().refetchUsers();
+      });
     },
     fetchUserUsage: (body: User, query: FilterUsageType) => {
       for (const key in query) {
         if (!query[key as keyof FilterUsageType])
           delete query[key as keyof FilterUsageType];
       }
-      return fetch(`/user/${body.username}/usage`, { method: "GET", query });
+      const identifier = encodeURIComponent(body.email ?? body.username);
+      return fetch(`/user/${identifier}/usage`, {
+        method: "GET",
+        query,
+      });
     },
     onEditingHosts: (isEditingHosts: boolean) => {
       set({ isEditingHosts });
     },
     onEditingNodes: (isEditingNodes: boolean) => {
       set({ isEditingNodes });
+    },
+    onEditingEmailNotifications: (isEditingEmailNotifications: boolean) => {
+      set({ isEditingEmailNotifications });
     },
     onShowingNodesUsage: (isShowingNodesUsage: boolean) => {
       set({ isShowingNodesUsage });
@@ -195,18 +209,20 @@ export const useDashboard = create(
       set({ subscribeUrl });
     },
     resetDataUsage: (user) => {
-      return fetch(`/user/${user.username}/reset`, { method: "POST" }).then(
-        () => {
-          set({ resetUsageUser: null });
-          get().refetchUsers();
-        }
-      );
+      const identifier = encodeURIComponent(user.email ?? user.username);
+      return fetch(`/user/${identifier}/reset`, {
+        method: "POST",
+      }).then(() => {
+        set({ resetUsageUser: null });
+        get().refetchUsers();
+      });
     },
     revokeSubscription: (user) => {
-      return fetch(`/user/${user.username}/revoke_sub`, {
+      const identifier = encodeURIComponent(user.email ?? user.username);
+      return fetch(`/user/${identifier}/revoke_sub`, {
         method: "POST",
-      }).then((user) => {
-        set({ revokeSubscriptionUser: null, editingUser: user });
+      }).then((updatedUser) => {
+        set({ revokeSubscriptionUser: null, editingUser: updatedUser });
         get().refetchUsers();
       });
     },
