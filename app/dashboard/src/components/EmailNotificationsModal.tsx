@@ -265,10 +265,10 @@ export const EmailNotificationsModal: FC = () => {
                             type="number"
                             size="sm"
                             disabled={isSaving}
-                            value={field.value}
+                            value={String(field.value)}
                             min={1}
                             max={65535}
-                            onChange={(value: string) =>
+                            onChange={(value: any) =>
                               field.onChange(Number(value) || 0)
                             }
                             error={fieldState.error?.message}
