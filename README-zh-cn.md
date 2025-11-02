@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer">
+  <a href="https://github.com/noadevereux/nexpoint" target="_blank" rel="noopener noreferrer">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
       <img width="160" height="160" src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-light.png">
@@ -16,22 +16,22 @@
 <br/>
 <p align="center">
     <a href="#">
-        <img src="https://img.shields.io/github/actions/workflow/status/gozargah/nexpoint/build.yml?style=flat-square" />
+        <img src="https://img.shields.io/github/actions/workflow/status/noadevereux/nexpoint/build.yml?style=flat-square" />
     </a>
-    <a href="https://hub.docker.com/r/gozargah/nexpoint" target="_blank">
-        <img src="https://img.shields.io/docker/pulls/gozargah/nexpoint?style=flat-square&logo=docker" />
+    <a href="https://hub.docker.com/r/noadevereux/nexpoint" target="_blank">
+        <img src="https://img.shields.io/docker/pulls/noadevereux/nexpoint?style=flat-square&logo=docker" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/license/gozargah/nexpoint?style=flat-square" />
+        <img src="https://img.shields.io/github/license/noadevereux/nexpoint?style=flat-square" />
     </a>
-    <a href="https://t.me/gozargah_nexpoint" target="_blank">
+    <a href="https://t.me/noadevereux_nexpoint" target="_blank">
         <img src="https://img.shields.io/badge/telegram-group-blue?style=flat-square&logo=telegram" />
     </a>
     <a href="#">
         <img src="https://img.shields.io/badge/twitter-commiunity-blue?style=flat-square&logo=twitter" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/stars/gozargah/nexpoint?style=social" />
+        <img src="https://img.shields.io/github/stars/noadevereux/nexpoint?style=social" />
     </a>
 </p>
 
@@ -54,7 +54,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer" >
+  <a href="https://github.com/noadevereux/nexpoint" target="_blank" rel="noopener noreferrer" >
     <img src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Nexpoint screenshots" width="600" height="auto">
   </a>
 </p>
@@ -128,7 +128,7 @@ Once the installation is complete:
 - The Nexpoint files will be located at `/opt/nexpoint`
 - The configuration file can be found at `/opt/nexpoint/.env` (refer to [configurations](#configuration) section to see variables)
 - The data files will be placed at `/usr/lib/nexpoint`
-- For security reasons, the Nexpoint dashboard is not accessible via IP address. Therefore, you must [obtain SSL certificate](https://gozargah.github.io/nexpoint/en/examples/issue-ssl-certificate) and access your Nexpoint dashboard by opening a web browser and navigating to `https://YOUR_DOMAIN:8000/dashboard/` (replace YOUR_DOMAIN with your actual domain)
+- For security reasons, the Nexpoint dashboard is not accessible via IP address. Therefore, you must [obtain SSL certificate](https://noadevereux.github.io/nexpoint/en/examples/issue-ssl-certificate) and access your Nexpoint dashboard by opening a web browser and navigating to `https://YOUR_DOMAIN:8000/dashboard/` (replace YOUR_DOMAIN with your actual domain)
 - You can also use SSH port forwarding to access the Nexpoint dashboard locally without a domain. Replace `user@serverip` with your actual SSH username and server IP and Run the command below:
 
 ```bash
@@ -314,7 +314,7 @@ server {
 
 
 # 文档
-[Nexpoint 文档](https://gozargah.github.io/nexpoint) 提供了所有必要的入门指南，支持三种语言：波斯语、英语和俄语。要全面覆盖项目的各个方面，这些文档需要大量的工作。我们欢迎并感谢您的贡献，以帮助我们改进文档。您可以在这个 [GitHub 仓库](https://github.com/noadevereux/gozargah.github.io) 中进行贡献。
+[Nexpoint 文档](https://noadevereux.github.io/nexpoint) 提供了所有必要的入门指南，支持三种语言：波斯语、英语和俄语。要全面覆盖项目的各个方面，这些文档需要大量的工作。我们欢迎并感谢您的贡献，以帮助我们改进文档。您可以在这个 [GitHub 仓库](https://github.com/noadevereux/noadevereux.github.io) 中进行贡献。
 
 
 # 如何使用 API
@@ -377,9 +377,9 @@ Nexpoint 配备了一个集成的 Telegram bot，可以处理服务器管理、�
 
 # 贡献者
 
-我们热爱贡献者！如果您想做出贡献，请查看我们的[贡献指南](CONTRIBUTING.md)并随时提交拉取请求或打开问题。我们也欢迎您加入我们的 [Telegram](https://t.me/gozargah_nexpoint) 群组，以获得支持或贡献指导。
+我们热爱贡献者！如果您想做出贡献，请查看我们的[贡献指南](CONTRIBUTING.md)并随时提交拉取请求或打开问题。我们也欢迎您加入我们的 [Telegram](https://t.me/noadevereux_nexpoint) 群组，以获得支持或贡献指导。
 
-查看 [issues](https://github.com/gozargah/nexpoint/issues) 以帮助改进这个项目。
+查看 [issues](https://github.com/noadevereux/nexpoint/issues) 以帮助改进这个项目。
 
 
 

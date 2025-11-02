@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer">
+  <a href="https://github.com/noadevereux/nexpoint" target="_blank" rel="noopener noreferrer">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
       <img width="160" height="160" src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-light.png">
@@ -16,22 +16,22 @@
 <br/>
 <p align="center">
     <a href="#">
-        <img src="https://img.shields.io/github/actions/workflow/status/gozargah/nexpoint/build.yml?style=flat-square" />
+        <img src="https://img.shields.io/github/actions/workflow/status/noadevereux/nexpoint/build.yml?style=flat-square" />
     </a>
-    <a href="https://hub.docker.com/r/gozargah/nexpoint" target="_blank">
-        <img src="https://img.shields.io/docker/pulls/gozargah/nexpoint?style=flat-square&logo=docker" />
+    <a href="https://hub.docker.com/r/noadevereux/nexpoint" target="_blank">
+        <img src="https://img.shields.io/docker/pulls/noadevereux/nexpoint?style=flat-square&logo=docker" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/license/gozargah/nexpoint?style=flat-square" />
+        <img src="https://img.shields.io/github/license/noadevereux/nexpoint?style=flat-square" />
     </a>
-    <a href="https://t.me/gozargah_nexpoint" target="_blank">
+    <a href="https://t.me/noadevereux_nexpoint" target="_blank">
         <img src="https://img.shields.io/badge/telegram-group-blue?style=flat-square&logo=telegram" />
     </a>
     <a href="#">
         <img src="https://img.shields.io/badge/twitter-commiunity-blue?style=flat-square&logo=twitter" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/stars/gozargah/nexpoint?style=social" />
+        <img src="https://img.shields.io/github/stars/noadevereux/nexpoint?style=social" />
     </a>
 </p>
 
@@ -54,7 +54,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer" >
+  <a href="https://github.com/noadevereux/nexpoint" target="_blank" rel="noopener noreferrer" >
     <img src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Nexpoint screenshots" width="600" height="auto">
   </a>
 </p>
@@ -130,7 +130,7 @@ sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/mas
 - Файлы Nexpoint будут размещены по адресу `/opt/nexpoint`.
 - Файл конфигурации будет размещен по адресу `/opt/nexpoint/.env` (см. [Конфигурация](#конфигурация)).
 - Файлы с данными будут размещены по адресу `/var/lib/nexpoint`.
-- По соображениям безопасности, панель управления Nexpoint недоступна через IP-адрес. Поэтому вам необходимо [получить SSL-сертификат](https://gozargah.github.io/nexpoint/ru/examples/issue-ssl-certificate) и получить доступ к панели управления Nexpoint, открыв веб-браузер и перейдя по адресу `https://YOUR_DOMAIN:8000/dashboard/` (замените YOUR_DOMAIN на ваш фактический домен).
+- По соображениям безопасности, панель управления Nexpoint недоступна через IP-адрес. Поэтому вам необходимо [получить SSL-сертификат](https://noadevereux.github.io/nexpoint/ru/examples/issue-ssl-certificate) и получить доступ к панели управления Nexpoint, открыв веб-браузер и перейдя по адресу `https://YOUR_DOMAIN:8000/dashboard/` (замените YOUR_DOMAIN на ваш фактический домен).
 - Вы также можете использовать перенаправление портов SSH для локального доступа к панели управления Nexpoint без домена. Замените `user@serverip` на ваше фактическое имя пользователя SSH и IP-адрес сервера и выполните следующую команду:
 
 ```bash
@@ -327,7 +327,7 @@ server {
 
 # документация
 
-[Документация Nexpoint](https://gozargah.github.io/nexpoint/ru/) предоставляет все необходимые руководства для начала работы и доступна на трех языках: фарси, английском и русском. Для полного охвата всех аспектов проекта требуется значительное количество усилий. Мы приветствуем и ценим ваш вклад в улучшение документации. Вы можете внести свой вклад в этот [репозиторий на GitHub](https://github.com/noadevereux/gozargah.github.io).
+[Документация Nexpoint](https://noadevereux.github.io/nexpoint/ru/) предоставляет все необходимые руководства для начала работы и доступна на трех языках: фарси, английском и русском. Для полного охвата всех аспектов проекта требуется значительное количество усилий. Мы приветствуем и ценим ваш вклад в улучшение документации. Вы можете внести свой вклад в этот [репозиторий на GitHub](https://github.com/noadevereux/noadevereux.github.io).
 
 # API
 
@@ -385,8 +385,8 @@ nexpoint cli [OPTIONS] COMMAND [ARGS]...
 
 # Nexpoint Node
 
-Проект Nexpoint представляет [Nexpoint-node](https://github.com/gozargah/nexpoint-node), который помогает Вам в распределении инфраструктуры. С помощью Nexpoint-node можно распределить инфраструктуру по нескольким узлам, получив такие преимущества, как высокая доступность, масштабируемость и гибкость. Nexpoint-node позволяет пользователям подключаться к различным серверам, предоставляя им гибкость в выборе, а не ограничиваться только одним сервером.
-Более подробная информация и инструкции по установке приведены в [официальной документации Nexpoint-node](https://github.com/gozargah/nexpoint-node).
+Проект Nexpoint представляет [Nexpoint-node](https://github.com/noadevereux/nexpoint-node), который помогает Вам в распределении инфраструктуры. С помощью Nexpoint-node можно распределить инфраструктуру по нескольким узлам, получив такие преимущества, как высокая доступность, масштабируемость и гибкость. Nexpoint-node позволяет пользователям подключаться к различным серверам, предоставляя им гибкость в выборе, а не ограничиваться только одним сервером.
+Более подробная информация и инструкции по установке приведены в [официальной документации Nexpoint-node](https://github.com/noadevereux/nexpoint-node).
 
 
 # Webhook уведомления
@@ -434,9 +434,9 @@ Body:
 
 # Участники
 
-Мы ❤️‍🔥 участников проекта! Если вы хотите внести свой вклад, пожалуйста, ознакомьтесь с нашим [Contributing Guidelines](CONTRIBUTING.md) и не стесняйтесь отправлять запросы на исправление ошибок или сообщить о проблеме. Мы также приглашаем вас присоединиться к нашей группе [Telegram](https://t.me/gozargah_nexpoint) для получения поддержки.
+Мы ❤️‍🔥 участников проекта! Если вы хотите внести свой вклад, пожалуйста, ознакомьтесь с нашим [Contributing Guidelines](CONTRIBUTING.md) и не стесняйтесь отправлять запросы на исправление ошибок или сообщить о проблеме. Мы также приглашаем вас присоединиться к нашей группе [Telegram](https://t.me/noadevereux_nexpoint) для получения поддержки.
 
-Проверьте [open issues](https://github.com/gozargah/nexpoint/issues), чтобы помочь развитию этого проекта.
+Проверьте [open issues](https://github.com/noadevereux/nexpoint/issues), чтобы помочь развитию этого проекта.
 
 <p align="center">
 Спасибо всем участникам, благодаря которым Nexpoint становится лучше:

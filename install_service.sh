@@ -2,7 +2,7 @@
 
 SERVICE_NAME="nexpoint"
 SERVICE_DESCRIPTION="Nexpoint Service"
-SERVICE_DOCUMENTATION="https://github.com/gozargah/nexpoint"
+SERVICE_DOCUMENTATION="https://github.com/noadevereux/nexpoint"
 MAIN_PY_PATH="$PWD/main.py"
 SERVICE_FILE="/etc/systemd/system/$SERVICE_NAME.service"
 

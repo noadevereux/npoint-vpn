@@ -1,5 +1,5 @@
 <p align="center">
-  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer">
+  <a href="https://github.com/noadevereux/nexpoint" target="_blank" rel="noopener noreferrer">
     <picture>
       <source media="(prefers-color-scheme: dark)" srcset="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
       <img width="160" height="160" src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-light.png">
@@ -16,22 +16,22 @@
 <br/>
 <p align="center">
     <a href="#">
-        <img src="https://img.shields.io/github/actions/workflow/status/gozargah/nexpoint/build.yml?style=flat-square" />
+        <img src="https://img.shields.io/github/actions/workflow/status/noadevereux/nexpoint/build.yml?style=flat-square" />
     </a>
-    <a href="https://hub.docker.com/r/gozargah/nexpoint" target="_blank">
-        <img src="https://img.shields.io/docker/pulls/gozargah/nexpoint?style=flat-square&logo=docker" />
+    <a href="https://hub.docker.com/r/noadevereux/nexpoint" target="_blank">
+        <img src="https://img.shields.io/docker/pulls/noadevereux/nexpoint?style=flat-square&logo=docker" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/license/gozargah/nexpoint?style=flat-square" />
+        <img src="https://img.shields.io/github/license/noadevereux/nexpoint?style=flat-square" />
     </a>
-    <a href="https://t.me/gozargah_nexpoint" target="_blank">
+    <a href="https://t.me/noadevereux_nexpoint" target="_blank">
         <img src="https://img.shields.io/badge/telegram-group-blue?style=flat-square&logo=telegram" />
     </a>
     <a href="#">
         <img src="https://img.shields.io/badge/twitter-commiunity-blue?style=flat-square&logo=twitter" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/stars/gozargah/nexpoint?style=social" />
+        <img src="https://img.shields.io/github/stars/noadevereux/nexpoint?style=social" />
     </a>
 </p>
 
@@ -54,7 +54,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer" >
+  <a href="https://github.com/noadevereux/nexpoint" target="_blank" rel="noopener noreferrer" >
     <img src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Elk screenshots" width="600" height="auto">
   </a>
 </p>
@@ -129,7 +129,7 @@ sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/mas
 - فایل های مرزبان در پوشه `/opt/nexpoint` قرار می‌گیرند
 - فایل تنظیمات در مسیر `/opt/nexpoint/.env` قرار می‌گیرد ([تنظیمات](#تنظیمات) را مشاهده کنید)
 - فایل های مهم (اطلاعات) مرزبان در مسیر `/usr/lib/nexpoint` قرار می‌گیرند
-به دلایل امنیتی، داشبورد مرزبان از طریق آیپی قابل دسترسی نیست. بنابراین، باید برای دامنه خود [گواهی SSL](https://gozargah.github.io/nexpoint/fa/examples/issue-ssl-certificate) بگیرید و از طریق آدرس https://YOUR_DOMAIN:8000/dashboard/ وارد داشبورد مرزبان شوید (نام دامنه خود را جایگزین YOUR_DOMAIN کنید)
+به دلایل امنیتی، داشبورد مرزبان از طریق آیپی قابل دسترسی نیست. بنابراین، باید برای دامنه خود [گواهی SSL](https://noadevereux.github.io/nexpoint/fa/examples/issue-ssl-certificate) بگیرید و از طریق آدرس https://YOUR_DOMAIN:8000/dashboard/ وارد داشبورد مرزبان شوید (نام دامنه خود را جایگزین YOUR_DOMAIN کنید)
 - همچنین می‌توانید از فوروارد کردن پورت SSH برای دسترسی لوکال به داشبورد مرزبان بدون دامنه استفاده کنید. نام کاربری و آیپی سرور خود را جایگزین `user@serverip` کنید و دستور زیر را اجرا کنید:
 
 ```bash
@@ -299,7 +299,7 @@ server {
 
 
 # داکیومنت
-[داکیومنت مرزبان](https://gozargah.github.io/nexpoint) تمامی آموزش‌های ضروری برای شروع را فراهم می‌کند و در سه زبان فارسی، انگلیسی و روسی در دسترس است. این داکیومنت نیاز به تلاش زیادی دارد تا تمامی جنبه‌های پروژه را به طور کامل پوشش دهد. ما از کمک و همکاری شما برای بهبود آن استقبال و قدردانی می‌کنیم. می‌توانید در این صفحه [گیت‌هاب](https://github.com/noadevereux/gozargah.github.io) مشارکت کنید.
+[داکیومنت مرزبان](https://noadevereux.github.io/nexpoint) تمامی آموزش‌های ضروری برای شروع را فراهم می‌کند و در سه زبان فارسی، انگلیسی و روسی در دسترس است. این داکیومنت نیاز به تلاش زیادی دارد تا تمامی جنبه‌های پروژه را به طور کامل پوشش دهد. ما از کمک و همکاری شما برای بهبود آن استقبال و قدردانی می‌کنیم. می‌توانید در این صفحه [گیت‌هاب](https://github.com/noadevereux/noadevereux.github.io) مشارکت کنید.
 
 # استفاده از API
 مرزبان به توسعه دهندگانAPI REST ارائه می دهد. برای مشاهده اسناد API در قالب Swagger UI یا ReDoc، متغیر `DOCS=True` را در تنظیمات خود ست کنید و در مرورگر به مسیر `/docs` و `/redoc` بروید.
@@ -402,9 +402,9 @@ Body:
 
 
 # مشارکت در توسعه
-این ❤️‍🔥 تقدیم به همه‌ی کسایی که در توسعه مرزبان مشارکت می‌کنند! اگر می‌خواهید مشارکت داشته باشید، لطفاً [دستورالعمل‌های مشارکت](CONTRIBUTING.md) ما را بررسی کنید و در صورت تمایل Pull Request ارسال کنید یا یک Issue  باز کنید. همچنین از شما برای پیوستن به گروه [تلگرام](https://t.me/gozargah_nexpoint) ما برای حمایت یا کمک به راهنمایی استقبال می کنیم.
+این ❤️‍🔥 تقدیم به همه‌ی کسایی که در توسعه مرزبان مشارکت می‌کنند! اگر می‌خواهید مشارکت داشته باشید، لطفاً [دستورالعمل‌های مشارکت](CONTRIBUTING.md) ما را بررسی کنید و در صورت تمایل Pull Request ارسال کنید یا یک Issue  باز کنید. همچنین از شما برای پیوستن به گروه [تلگرام](https://t.me/noadevereux_nexpoint) ما برای حمایت یا کمک به راهنمایی استقبال می کنیم.
 
-لطفا اگر امکانش رو دارید، با بررسی [لیست کار ها](https://github.com/gozargah/nexpoint/issues) به ما در بهبود مرزبان کمک کنید. کمک های شما با آغوش باز پذیرفته میشه.
+لطفا اگر امکانش رو دارید، با بررسی [لیست کار ها](https://github.com/noadevereux/nexpoint/issues) به ما در بهبود مرزبان کمک کنید. کمک های شما با آغوش باز پذیرفته میشه.
 
 <p align="center">
 با تشکر از همه همکارانی که به بهبود مرزبان کمک کردند:
