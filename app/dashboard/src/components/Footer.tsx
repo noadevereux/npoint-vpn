@@ -15,7 +15,7 @@ export const Footer: FC<BoxProps> = (props) => {
         fontSize="xs"
       >
         <Link color="blue.400" href={REPO_URL}>
-          Marzban
+          Nexpoint
         </Link>
         {version ? ` (v${version}), ` : ", "}
         Made with ❤️ in{" "}

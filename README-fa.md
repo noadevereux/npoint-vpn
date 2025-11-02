@@ -1,8 +1,8 @@
 <p align="center">
-  <a href="https://github.com/gozargah/marzban" target="_blank" rel="noopener noreferrer">
+  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Gozargah/Marzban-docs/raw/master/screenshots/logo-dark.png">
-      <img width="160" height="160" src="https://github.com/Gozargah/Marzban-docs/raw/master/screenshots/logo-light.png">
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
+      <img width="160" height="160" src="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/logo-light.png">
     </picture>
   </a>
 </p>
@@ -16,22 +16,22 @@
 <br/>
 <p align="center">
     <a href="#">
-        <img src="https://img.shields.io/github/actions/workflow/status/gozargah/marzban/build.yml?style=flat-square" />
+        <img src="https://img.shields.io/github/actions/workflow/status/gozargah/nexpoint/build.yml?style=flat-square" />
     </a>
-    <a href="https://hub.docker.com/r/gozargah/marzban" target="_blank">
-        <img src="https://img.shields.io/docker/pulls/gozargah/marzban?style=flat-square&logo=docker" />
+    <a href="https://hub.docker.com/r/gozargah/nexpoint" target="_blank">
+        <img src="https://img.shields.io/docker/pulls/gozargah/nexpoint?style=flat-square&logo=docker" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/license/gozargah/marzban?style=flat-square" />
+        <img src="https://img.shields.io/github/license/gozargah/nexpoint?style=flat-square" />
     </a>
-    <a href="https://t.me/gozargah_marzban" target="_blank">
+    <a href="https://t.me/gozargah_nexpoint" target="_blank">
         <img src="https://img.shields.io/badge/telegram-group-blue?style=flat-square&logo=telegram" />
     </a>
     <a href="#">
         <img src="https://img.shields.io/badge/twitter-commiunity-blue?style=flat-square&logo=twitter" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/stars/gozargah/marzban?style=social" />
+        <img src="https://img.shields.io/github/stars/gozargah/nexpoint?style=social" />
     </a>
 </p>
 
@@ -54,8 +54,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/gozargah/marzban" target="_blank" rel="noopener noreferrer" >
-    <img src="https://github.com/Gozargah/Marzban-docs/raw/master/screenshots/preview.png" alt="Elk screenshots" width="600" height="auto">
+  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer" >
+    <img src="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Elk screenshots" width="600" height="auto">
   </a>
 </p>
 
@@ -109,27 +109,27 @@
 با دستور زیر مرزبان را با دیتابیس SQLite نصب کنید:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install
+sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install
 ```
 
 با دستور زیر مرزبان را با دیتابیس MySQL نصب کنید:
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install --database mysql
+sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mysql
 ```
 
 با دستور زیر مرزبان را با دیتابیس MariaDB نصب کنید:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install --database mariadb
+sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mariadb
 ```
 
 وقتی نصب تمام شد:
 
 - شما لاگ های مرزبان رو مشاهده میکنید که می‌توانید با بستن ترمینال یا فشار دادن `Ctrl+C` از آن خارج شوید
-- فایل های مرزبان در پوشه `/opt/marzban` قرار می‌گیرند
-- فایل تنظیمات در مسیر `/opt/marzban/.env` قرار می‌گیرد ([تنظیمات](#تنظیمات) را مشاهده کنید)
-- فایل های مهم (اطلاعات) مرزبان در مسیر `/usr/lib/marzban` قرار می‌گیرند
-به دلایل امنیتی، داشبورد مرزبان از طریق آیپی قابل دسترسی نیست. بنابراین، باید برای دامنه خود [گواهی SSL](https://gozargah.github.io/marzban/fa/examples/issue-ssl-certificate) بگیرید و از طریق آدرس https://YOUR_DOMAIN:8000/dashboard/ وارد داشبورد مرزبان شوید (نام دامنه خود را جایگزین YOUR_DOMAIN کنید)
+- فایل های مرزبان در پوشه `/opt/nexpoint` قرار می‌گیرند
+- فایل تنظیمات در مسیر `/opt/nexpoint/.env` قرار می‌گیرد ([تنظیمات](#تنظیمات) را مشاهده کنید)
+- فایل های مهم (اطلاعات) مرزبان در مسیر `/usr/lib/nexpoint` قرار می‌گیرند
+به دلایل امنیتی، داشبورد مرزبان از طریق آیپی قابل دسترسی نیست. بنابراین، باید برای دامنه خود [گواهی SSL](https://gozargah.github.io/nexpoint/fa/examples/issue-ssl-certificate) بگیرید و از طریق آدرس https://YOUR_DOMAIN:8000/dashboard/ وارد داشبورد مرزبان شوید (نام دامنه خود را جایگزین YOUR_DOMAIN کنید)
 - همچنین می‌توانید از فوروارد کردن پورت SSH برای دسترسی لوکال به داشبورد مرزبان بدون دامنه استفاده کنید. نام کاربری و آیپی سرور خود را جایگزین `user@serverip` کنید و دستور زیر را اجرا کنید:
 
 ```bash
@@ -145,7 +145,7 @@ http://localhost:8000/dashboard/
 در مرحله بعد, باید یک ادمین سودو بسازید
 
 ```bash
-marzban cli admin create --sudo
+nexpoint cli admin create --sudo
 ```
 
 تمام! حالا با این اطلاعات می‌توانید وارد مرزبان شوید
@@ -153,7 +153,7 @@ marzban cli admin create --sudo
 برای مشاهده راهنمای اسکریپت مرزبان دستور زیر را اجرا کنید
 
 ```bash
-marzban --help
+nexpoint --help
 ```
 
 اگر مشتاق هستید که مرزبان رو با پایتون و به صورت دستی اجرا کنید، مراحل زیر را مشاهده کنید
@@ -170,8 +170,8 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
 پروژه را clone کنید و dependency ها را نصب کنید. دقت کنید که نسخه پایتون شما Python>=3.8 باشد.
 
 ```bash
-git clone https://github.com/Gozargah/Marzban.git
-cd Marzban
+git clone https://github.com/Gozargah/Nexpoint.git
+cd Nexpoint
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python3 -
 python3 -m pip install -r requirements.txt
 ```
@@ -184,12 +184,12 @@ python3 -m pip install -r requirements.txt
 alembic upgrade head
 ```
 
-اگر می خواهید از `marzban-cli` استفاده کنید، باید آن را به یک فایل در `$PATH` خود لینک و قابل اجرا (executable) کنید. سپس تکمیل خودکار (auto-completion) آن را نصب کنید:
+اگر می خواهید از `nexpoint-cli` استفاده کنید، باید آن را به یک فایل در `$PATH` خود لینک و قابل اجرا (executable) کنید. سپس تکمیل خودکار (auto-completion) آن را نصب کنید:
 
 ```bash
-sudo ln -s $(pwd)/marzban-cli.py /usr/bin/marzban-cli
-sudo chmod +x /usr/bin/marzban-cli
-marzban-cli completion install
+sudo ln -s $(pwd)/nexpoint-cli.py /usr/bin/nexpoint-cli
+sudo chmod +x /usr/bin/nexpoint-cli
+nexpoint-cli completion install
 ```
 
 حالا یک کپی از `.env.example` با نام `.env` بسازید و با یک ادیتور آن را باز کنید و تنظیمات دلخواه خود را انجام دهید. یه عنوان مثال نام کاربری و رمز عبور را می توانید در این فایل تغییر دهید.
@@ -209,8 +209,8 @@ python3 main.py
 
 اجرا با استفاده از systemctl در لینوکس
 ```
-systemctl enable /var/lib/marzban/marzban.service
-systemctl start marzban
+systemctl enable /var/lib/nexpoint/nexpoint.service
+systemctl start nexpoint
 ```
 
 اجرا با nginx
@@ -236,7 +236,7 @@ or
 server {
     listen 443 ssl http2;
     listen [::]:443 ssl http2;
-    server_name  marzban.example.com;
+    server_name  nexpoint.example.com;
 
     ssl_certificate      /etc/letsencrypt/live/example.com/fullchain.pem;
     ssl_certificate_key  /etc/letsencrypt/live/example.com/privkey.pem;
@@ -299,7 +299,7 @@ server {
 
 
 # داکیومنت
-[داکیومنت مرزبان](https://gozargah.github.io/marzban) تمامی آموزش‌های ضروری برای شروع را فراهم می‌کند و در سه زبان فارسی، انگلیسی و روسی در دسترس است. این داکیومنت نیاز به تلاش زیادی دارد تا تمامی جنبه‌های پروژه را به طور کامل پوشش دهد. ما از کمک و همکاری شما برای بهبود آن استقبال و قدردانی می‌کنیم. می‌توانید در این صفحه [گیت‌هاب](https://github.com/Gozargah/gozargah.github.io) مشارکت کنید.
+[داکیومنت مرزبان](https://gozargah.github.io/nexpoint) تمامی آموزش‌های ضروری برای شروع را فراهم می‌کند و در سه زبان فارسی، انگلیسی و روسی در دسترس است. این داکیومنت نیاز به تلاش زیادی دارد تا تمامی جنبه‌های پروژه را به طور کامل پوشش دهد. ما از کمک و همکاری شما برای بهبود آن استقبال و قدردانی می‌کنیم. می‌توانید در این صفحه [گیت‌هاب](https://github.com/Gozargah/gozargah.github.io) مشارکت کنید.
 
 # استفاده از API
 مرزبان به توسعه دهندگانAPI REST ارائه می دهد. برای مشاهده اسناد API در قالب Swagger UI یا ReDoc، متغیر `DOCS=True` را در تنظیمات خود ست کنید و در مرورگر به مسیر `/docs` و `/redoc` بروید.
@@ -308,24 +308,24 @@ server {
 # پشتیبان گیری از مرزبان
 بهتر است همیشه از فایل های مرزبان خود نسخه پشتیبان تهیه کنید تا در صورت خرابی سیستم یا حذف تصادفی اطلاعات از دست نروند. مراحل تهیه نسخه پشتیبان از مرزبان به شرح زیر است:
 
-1. به طور پیش فرض، تمام فایل های مهم مرزبان در `/var/lib/marzban` ذخیره می شوند (در نسخه داکر). کل پوشه `/var/lib/marzban` را در یک مکان پشتیبان مورد نظر خود، مانند هارد دیسک خارجی یا فضای ذخیره سازی ابری کپی کنید.
+1. به طور پیش فرض، تمام فایل های مهم مرزبان در `/var/lib/nexpoint` ذخیره می شوند (در نسخه داکر). کل پوشه `/var/lib/nexpoint` را در یک مکان پشتیبان مورد نظر خود، مانند هارد دیسک خارجی یا فضای ذخیره سازی ابری کپی کنید.
 2. علاوه بر این، مطمئن شوید که از فایل env خود که حاوی متغیرهای تنظیمات شما است و همچنین فایل پیکربندی Xray خود نسخه پشتیبان تهیه کنید.
 
 خدمات پشتیبان‌گیری مرزبان به طور کارآمد تمام فایل‌های ضروری را فشرده کرده و آن‌ها را به ربات تلگرام مشخص شده شما ارسال می‌کند. این خدمات از پایگاه‌های داده SQLite، MySQL و MariaDB پشتیبانی می‌کند. یکی از ویژگی‌های اصلی آن، خودکار بودن است که به شما اجازه می‌دهد تا پشتیبان‌گیری‌ها را هر ساعت برنامه‌ریزی کنید. محدودیتی در مورد محدودیت‌های آپلود تلگرام برای ربات‌ها وجود ندارد؛ اگر فایل شما بزرگتر از میزان محدودیت تلگرام باشد، به دو یا چند بخش تقسیم شده و ارسال می‌شود. علاوه بر این، شما می‌توانید در هر زمان پشتیبان‌گیری فوری انجام دهید.
 
 نصب آخرین ورژن مرزبان کامند:
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Marzban-scripts/raw/master/marzban.sh)" @ install-script
+sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install-script
 ```
 
 راه‌اندازی سرویس پشتیبان گیری:
 ```bash
-marzban backup-service
+nexpoint backup-service
 ```
 
 پشتیبان گیری فوری:
 ```bash
-marzban backup
+nexpoint backup
 ```
 
 با انجام این مراحل، می توانید اطمینان حاصل کنید که از تمام فایل ها و داده های مرزبان خود یک نسخه پشتیبان تهیه کرده اید. به خاطر داشته باشید که نسخه های پشتیبان خود را به طور مرتب به روز کنید تا آنها را به روز نگه دارید.
@@ -348,10 +348,10 @@ marzban backup
 برای مثال، به پوشه ی `docker-compose.yml` مرزبان بروید و دستور زیر را اجرا کنید:
 
 ```bash
-$ sudo docker-compose exec -it marzban bash
+$ sudo docker-compose exec -it nexpoint bash
 ```
 
-رابط خط فرمان (CLI) مرزبان از طریق دستور `marzban-cli` هرکجا در دسترس خواهد بود!
+رابط خط فرمان (CLI) مرزبان از طریق دستور `nexpoint-cli` هرکجا در دسترس خواهد بود!
 
 برای کسب اطلاعات بیشتر می توانید [مستندات CLI مرزبان](./cli/README.md) را مطالعه کنید.
 
@@ -377,7 +377,7 @@ Content-Type: application/json
 
 
 Body:
-{"username": "marzban_test_user", "action": "user_updated", "enqueued_at": 1680506457.636369, "tries": 0}
+{"username": "nexpoint_test_user", "action": "user_updated", "enqueued_at": 1680506457.636369, "tries": 0}
 ```
 
 انواع مختلف actionهایی که مرزبان ارسال می‌کند: `user_created`, `user_updated`, `user_deleted`, `user_limited`, `user_expired`, `user_disabled`, `user_enabled`
@@ -402,16 +402,16 @@ Body:
 
 
 # مشارکت در توسعه
-این ❤️‍🔥 تقدیم به همه‌ی کسایی که در توسعه مرزبان مشارکت می‌کنند! اگر می‌خواهید مشارکت داشته باشید، لطفاً [دستورالعمل‌های مشارکت](CONTRIBUTING.md) ما را بررسی کنید و در صورت تمایل Pull Request ارسال کنید یا یک Issue  باز کنید. همچنین از شما برای پیوستن به گروه [تلگرام](https://t.me/gozargah_marzban) ما برای حمایت یا کمک به راهنمایی استقبال می کنیم.
+این ❤️‍🔥 تقدیم به همه‌ی کسایی که در توسعه مرزبان مشارکت می‌کنند! اگر می‌خواهید مشارکت داشته باشید، لطفاً [دستورالعمل‌های مشارکت](CONTRIBUTING.md) ما را بررسی کنید و در صورت تمایل Pull Request ارسال کنید یا یک Issue  باز کنید. همچنین از شما برای پیوستن به گروه [تلگرام](https://t.me/gozargah_nexpoint) ما برای حمایت یا کمک به راهنمایی استقبال می کنیم.
 
-لطفا اگر امکانش رو دارید، با بررسی [لیست کار ها](https://github.com/gozargah/marzban/issues) به ما در بهبود مرزبان کمک کنید. کمک های شما با آغوش باز پذیرفته میشه.
+لطفا اگر امکانش رو دارید، با بررسی [لیست کار ها](https://github.com/gozargah/nexpoint/issues) به ما در بهبود مرزبان کمک کنید. کمک های شما با آغوش باز پذیرفته میشه.
 
 <p align="center">
 با تشکر از همه همکارانی که به بهبود مرزبان کمک کردند:
 </p>
 <p align="center">
-<a href="https://github.com/Gozargah/Marzban/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Gozargah/Marzban" />
+<a href="https://github.com/Gozargah/Nexpoint/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=Gozargah/Nexpoint" />
 </a>
 </p>
 <p align="center">
