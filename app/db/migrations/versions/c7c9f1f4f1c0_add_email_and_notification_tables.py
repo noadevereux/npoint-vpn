@@ -41,8 +41,7 @@ def upgrade() -> None:
         "users",
         sa.Column("email", sa.String(length=255), nullable=True),
     )
-    op.create_index("ix_users_email", "users", ["email"], unique=False)
-    op.create_unique_constraint("uq_users_email", "users", ["email"])
+    op.create_index("ix_users_email", "users", ["email"], unique=True)
 
     op.create_table(
         "email_smtp_settings",
@@ -83,7 +82,6 @@ def downgrade() -> None:
     op.drop_table("email_notification_preferences")
     op.drop_table("email_smtp_settings")
 
-    op.drop_constraint("uq_users_email", "users", type_="unique")
     op.drop_index("ix_users_email", table_name="users")
     op.drop_column("users", "email")
 
