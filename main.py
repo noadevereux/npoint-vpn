@@ -16,7 +16,7 @@ def validate_cert_and_key(cert_file_path, key_file_path, ca_type):
     if ca_type == "private":
         logger.warning(f"""
 {click.style('IMPORTANT!', blink=True, bold=True, fg="yellow")} 
-You're running Nexpoint with: {click.style('UVICORN_SSL_CA_TYPE', italic=True, fg="magenta")}: {click.style(f'{ca_type}', bold=True, fg="yellow")}. 
+You're running npoint-vpn with: {click.style('UVICORN_SSL_CA_TYPE', italic=True, fg="magenta")}: {click.style(f'{ca_type}', bold=True, fg="yellow")}. 
 Self-signed CAs are useful in testing or internal use cases, they’re not suitable for secure public internet communications.
         """)
         return
