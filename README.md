@@ -1,8 +1,8 @@
 <p align="center">
-  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer">
+  <a href="https://github.com/noadevereux/nexpoint" target="_blank" rel="noopener noreferrer">
     <picture>
-      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
-      <img width="160" height="160" src="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/logo-light.png">
+      <source media="(prefers-color-scheme: dark)" srcset="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-dark.png">
+      <img width="160" height="160" src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/logo-light.png">
     </picture>
   </a>
 </p>
@@ -16,22 +16,22 @@
 <br/>
 <p align="center">
     <a href="#">
-        <img src="https://img.shields.io/github/actions/workflow/status/gozargah/nexpoint/build.yml?style=flat-square" />
+        <img src="https://img.shields.io/github/actions/workflow/status/noadevereux/nexpoint/build.yml?style=flat-square" />
     </a>
-    <a href="https://hub.docker.com/r/gozargah/nexpoint" target="_blank">
-        <img src="https://img.shields.io/docker/pulls/gozargah/nexpoint?style=flat-square&logo=docker" />
+    <a href="https://hub.docker.com/r/noadevereux/nexpoint" target="_blank">
+        <img src="https://img.shields.io/docker/pulls/noadevereux/nexpoint?style=flat-square&logo=docker" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/license/gozargah/nexpoint?style=flat-square" />
+        <img src="https://img.shields.io/github/license/noadevereux/nexpoint?style=flat-square" />
     </a>
-    <a href="https://t.me/gozargah_nexpoint" target="_blank">
+    <a href="https://t.me/noadevereux_nexpoint" target="_blank">
         <img src="https://img.shields.io/badge/telegram-group-blue?style=flat-square&logo=telegram" />
     </a>
     <a href="#">
         <img src="https://img.shields.io/badge/twitter-commiunity-blue?style=flat-square&logo=twitter" />
     </a>
     <a href="#">
-        <img src="https://img.shields.io/github/stars/gozargah/nexpoint?style=social" />
+        <img src="https://img.shields.io/github/stars/noadevereux/nexpoint?style=social" />
     </a>
 </p>
 
@@ -54,8 +54,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/gozargah/nexpoint" target="_blank" rel="noopener noreferrer" >
-    <img src="https://github.com/Gozargah/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Nexpoint screenshots" width="600" height="auto">
+  <a href="https://github.com/noadevereux/nexpoint" target="_blank" rel="noopener noreferrer" >
+    <img src="https://github.com/noadevereux/Nexpoint-docs/raw/master/screenshots/preview.png" alt="Nexpoint screenshots" width="600" height="auto">
   </a>
 </p>
 
@@ -111,18 +111,18 @@ Nexpoint is user-friendly, feature-rich and reliable. It lets you to create diff
 Run the following command to install Nexpoint with SQLite database:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install
 ```
 
 Run the following command to install Nexpoint with MySQL database:
 
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mysql
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mysql
 ```
 
 Run the following command to install Nexpoint with MariaDB database:
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mariadb
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install --database mariadb
 ```
 
 Once the installation is complete:
@@ -131,7 +131,7 @@ Once the installation is complete:
 - The Nexpoint files will be located at `/opt/nexpoint`
 - The configuration file can be found at `/opt/nexpoint/.env` (refer to [configurations](#configuration) section to see variables)
 - The data files will be placed at `/var/lib/nexpoint`
-- For security reasons, the Nexpoint dashboard is not accessible via IP address. Therefore, you must [obtain SSL certificate](https://gozargah.github.io/nexpoint/en/examples/issue-ssl-certificate) and access your Nexpoint dashboard by opening a web browser and navigating to `https://YOUR_DOMAIN:8000/dashboard/` (replace YOUR_DOMAIN with your actual domain)
+- For security reasons, the Nexpoint dashboard is not accessible via IP address. Therefore, you must [obtain SSL certificate](https://noadevereux.github.io/nexpoint/en/examples/issue-ssl-certificate) and access your Nexpoint dashboard by opening a web browser and navigating to `https://YOUR_DOMAIN:8000/dashboard/` (replace YOUR_DOMAIN with your actual domain)
 - You can also use SSH port forwarding to access the Nexpoint dashboard locally without a domain. Replace `user@serverip` with your actual SSH username and server IP and Run the command below:
 
 ```bash
@@ -173,7 +173,7 @@ bash -c "$(curl -L https://github.com/XTLS/Xray-install/raw/main/install-release
 Clone this project and install the dependencies (you need Python >= 3.8)
 
 ```bash
-git clone https://github.com/Gozargah/Nexpoint.git
+git clone https://github.com/noadevereux/Nexpoint.git
 cd Nexpoint
 wget -qO- https://bootstrap.pypa.io/get-pip.py | python3 -
 python3 -m pip install -r requirements.txt
@@ -329,7 +329,7 @@ By default the app will be run on `http://localhost:8000/dashboard`. You can con
 
 # Documentation
 
-The [Nexpoint Documentation](https://gozargah.github.io/nexpoint) provides all the essential guides to get you started, available in three languages: Farsi, English, and Russian. This documentation requires significant effort to cover all aspects of the project comprehensively. We welcome and appreciate your contributions to help us improve it. You can contribute on this [GitHub repository](https://github.com/Gozargah/gozargah.github.io).
+The [Nexpoint Documentation](https://noadevereux.github.io/nexpoint) provides all the essential guides to get you started, available in three languages: Farsi, English, and Russian. This documentation requires significant effort to cover all aspects of the project comprehensively. We welcome and appreciate your contributions to help us improve it. You can contribute on this [GitHub repository](https://github.com/noadevereux/noadevereux.github.io).
 
 
 # API
@@ -348,7 +348,7 @@ Nexpoint's backup service efficiently zips all necessary files and sends them to
 
 Install the Latest Version of Nexpoint Command:
 ```bash
-sudo bash -c "$(curl -sL https://github.com/Gozargah/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install-script
+sudo bash -c "$(curl -sL https://github.com/noadevereux/Nexpoint-scripts/raw/master/nexpoint.sh)" @ install-script
 ```
 
 Setup the Backup Service:
@@ -386,8 +386,8 @@ For more information, You can read [Nexpoint CLI's documentation](./cli/README.m
 
 # Nexpoint Node
 
-The Nexpoint project introduces the [Nexpoint-node](https://github.com/gozargah/nexpoint-node), which revolutionizes infrastructure distribution. With Nexpoint-node, you can distribute your infrastructure across multiple locations, unlocking benefits such as redundancy, high availability, scalability, flexibility. Nexpoint-node empowers users to connect to different servers, offering them the flexibility to choose and connect to multiple servers instead of being limited to only one server.
-For more detailed information and installation instructions, please refer to the [Nexpoint-node official documentation](https://github.com/gozargah/nexpoint-node)
+The Nexpoint project introduces the [Nexpoint-node](https://github.com/noadevereux/nexpoint-node), which revolutionizes infrastructure distribution. With Nexpoint-node, you can distribute your infrastructure across multiple locations, unlocking benefits such as redundancy, high availability, scalability, flexibility. Nexpoint-node empowers users to connect to different servers, offering them the flexibility to choose and connect to multiple servers instead of being limited to only one server.
+For more detailed information and installation instructions, please refer to the [Nexpoint-node official documentation](https://github.com/noadevereux/nexpoint-node)
 
 # Webhook notifications
 
@@ -434,16 +434,16 @@ Made in [Unknown!] and Published under [AGPL-3.0](./LICENSE).
 
 # Contributors
 
-We ❤️‍🔥 contributors! If you'd like to contribute, please check out our [Contributing Guidelines](CONTRIBUTING.md) and feel free to submit a pull request or open an issue. We also welcome you to join our [Telegram](https://t.me/gozargah_nexpoint) group for either support or contributing guidance.
+We ❤️‍🔥 contributors! If you'd like to contribute, please check out our [Contributing Guidelines](CONTRIBUTING.md) and feel free to submit a pull request or open an issue. We also welcome you to join our [Telegram](https://t.me/noadevereux_nexpoint) group for either support or contributing guidance.
 
-Check [open issues](https://github.com/gozargah/nexpoint/issues) to help the progress of this project.
+Check [open issues](https://github.com/noadevereux/nexpoint/issues) to help the progress of this project.
 
 <p align="center">
 Thanks to the all contributors who have helped improve Nexpoint:
 </p>
 <p align="center">
-<a href="https://github.com/Gozargah/Nexpoint/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=Gozargah/Nexpoint" />
+<a href="https://github.com/noadevereux/Nexpoint/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=noadevereux/Nexpoint" />
 </a>
 </p>
 <p align="center">

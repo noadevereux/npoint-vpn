@@ -1,6 +1,6 @@
 services:
   nexpoint:
-    image: gozargah/nexpoint:latest
+    image: noadevereux/nexpoint:latest
     restart: always
     env_file: .env
     network_mode: host
