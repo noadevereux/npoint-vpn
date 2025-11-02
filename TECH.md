@@ -1,4 +1,4 @@
-# Nexpoint Technical Overview
+# npoint-vpn Technical Overview
 
 ## Runtime entry points and configuration
 - `main.py` is the executable entry point. It validates optional SSL material, decides how Uvicorn binds to the network, and launches a single-worker FastAPI server pointing at `main:app`. Debug mode forces a plain TCP listener on `0.0.0.0` for local development.【F:main.py†L15-L103】
@@ -38,7 +38,7 @@
 - `app/dashboard/__init__.py` mounts the bundled Vite/React dashboard into the FastAPI app. In development it spawns `npm run dev` with the correct API base path; in production it builds static assets on-demand and serves them under the configured dashboard path along with a static asset mount.【F:app/dashboard/__init__.py†L6-L59】
 
 ## Command-line tooling
-- `nexpoint-cli.py` provides a Typer-based CLI that groups admin, subscription, and user commands. It can also install shell completions. The CLI modules under `cli/` reuse the same API surface exposed by the FastAPI backend, giving administrators an alternative automation interface.【F:nexpoint-cli.py†L1-L55】
+- `npoint-cli.py` provides a Typer-based CLI that groups admin, subscription, and user commands. It can also install shell completions. The CLI modules under `cli/` reuse the same API surface exposed by the FastAPI backend, giving administrators an alternative automation interface.【F:npoint-cli.py†L1-L55】
 
 ## Putting it together
 1. Configuration is loaded, the FastAPI app is instantiated, and routers, jobs, and integrations register themselves.

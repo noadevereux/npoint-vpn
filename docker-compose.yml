@@ -1,8 +1,8 @@
 services:
-  nexpoint:
-    image: noadevereux/nexpoint:latest
+  npoint:
+    image: noadevereux/npoint-vpn:latest
     restart: always
     env_file: .env
     network_mode: host
     volumes:
-      - /var/lib/nexpoint:/var/lib/nexpoint
+      - /var/lib/npoint:/var/lib/npoint

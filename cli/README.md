@@ -41,7 +41,7 @@ $ admin [OPTIONS] COMMAND [ARGS]...
 
 Creates an admin
 
-Password can also be set using the `NEXPOINT_ADMIN_PASSWORD` environment variable for non-interactive usages.
+Password can also be set using the `NPOINT_ADMIN_PASSWORD` environment variable for non-interactive usages.
 
 **Usage**:
 
