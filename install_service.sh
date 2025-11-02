@@ -1,6 +1,6 @@
 #!/bin/bash
 
-SERVICE_NAME="npoint"
+SERVICE_NAME="nexpoint"
 SERVICE_DESCRIPTION="npoint-vpn Service"
 SERVICE_DOCUMENTATION="https://github.com/noadevereux/npoint-vpn"
 MAIN_PY_PATH="$PWD/main.py"

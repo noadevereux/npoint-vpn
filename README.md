@@ -128,9 +128,9 @@ sudo bash -c "$(curl -sL https://github.com/noadevereux/npoint-scripts/raw/maste
 Once the installation is complete:
 
 - You will see the logs that you can stop watching them by closing the terminal or pressing `Ctrl+C`
-- The npoint-vpn files will be located at `/opt/npoint`
-- The configuration file can be found at `/opt/npoint/.env` (refer to [configurations](#configuration) section to see variables)
-- The data files will be placed at `/var/lib/npoint`
+- The npoint-vpn files will be located at `/opt/nexpoint`
+- The configuration file can be found at `/opt/nexpoint/.env` (refer to [configurations](#configuration) section to see variables)
+- The data files will be placed at `/var/lib/nexpoint`
 - For security reasons, the npoint-vpn dashboard is not accessible via IP address. Therefore, you must [obtain SSL certificate](https://noadevereux.github.io/npoint/en/examples/issue-ssl-certificate) and access your npoint-vpn dashboard by opening a web browser and navigating to `https://YOUR_DOMAIN:8000/dashboard/` (replace YOUR_DOMAIN with your actual domain)
 - You can also use SSH port forwarding to access the npoint-vpn dashboard locally without a domain. Replace `user@serverip` with your actual SSH username and server IP and Run the command below:
 
@@ -214,11 +214,11 @@ Eventually, launch the application using command below
 python3 main.py
 ```
 
-To launch with linux systemctl (copy npoint.service file to `/var/lib/npoint/npoint.service`)
+To launch with linux systemctl (copy nexpoint.service file to `/var/lib/nexpoint/nexpoint.service`)
 
 ```
-systemctl enable /var/lib/npoint/npoint.service
-systemctl start npoint
+systemctl enable /var/lib/nexpoint/nexpoint.service
+systemctl start nexpoint
 ```
 
 To use with nginx
@@ -341,8 +341,8 @@ npoint-vpn provides a REST API that enables developers to interact with npoint-v
 
 It's always a good idea to backup your npoint-vpn files regularly to prevent data loss in case of system failures or accidental deletion. Here are the steps to backup npoint-vpn:
 
-1. By default, all npoint-vpn important files are saved in `/var/lib/npoint` (Docker versions). Copy the entire `/var/lib/npoint` directory to a backup location of your choice, such as an external hard drive or cloud storage.
-2. Additionally, make sure to backup your env file, which contains your configuration variables, and also, your Xray config file. If you installed npoint-vpn using npoint-scripts (recommended installation approach), the env and other configurations should be inside `/opt/npoint/` directory.
+1. By default, all npoint-vpn important files are saved in `/var/lib/nexpoint` (Docker versions). Copy the entire `/var/lib/nexpoint` directory to a backup location of your choice, such as an external hard drive or cloud storage.
+2. Additionally, make sure to backup your env file, which contains your configuration variables, and also, your Xray config file. If you installed npoint-vpn using npoint-scripts (recommended installation approach), the env and other configurations should be inside `/opt/nexpoint/` directory.
 
 npoint-vpn's backup service efficiently zips all necessary files and sends them to your specified Telegram bot. It supports SQLite, MySQL, and MariaDB databases. One of its key features is automation, allowing you to schedule backups every hour. There are no limitations concerning Telegram's upload limits for bots; if a file exceeds the limit, it will be split and sent in multiple parts. Additionally, you can initiate an immediate backup at any time.
 
