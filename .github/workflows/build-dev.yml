@@ -65,11 +65,11 @@ jobs:
     runs-on: ubuntu-latest
     needs: build-dev
     steps:
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.3
+        with: 
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
       - name: Deploy
         run: |
-          sudo apt-get update
-          sudo apt-get install -y openssh-client
-          mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tee ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
           ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@${{ secrets.DEV_HOST }} "nexpoint update"
