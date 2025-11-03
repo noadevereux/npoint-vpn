@@ -1,7 +1,7 @@
 """add user login tokens table
 
 Revision ID: 5c0a0e9d8f0f
-Revises: 2b231de97dc3
+Revises: c7c9f1f4f1c0
 Create Date: 2024-12-29 00:00:00.000000
 
 """
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 # revision identifiers, used by Alembic.
 revision = '5c0a0e9d8f0f'
-down_revision = '2b231de97dc3'
+down_revision = 'c7c9f1f4f1c0'
 branch_labels = None
 depends_on = None
 
