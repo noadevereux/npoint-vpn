@@ -70,6 +70,6 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y openssh-client
           mkdir -p ~/.ssh
-          echo "${{ secrets.SSH_PRIVATE_KEY }}" | sudo tee ~/.ssh/id_rsa
-          sudo chmod 600 ~/.ssh/id_rsa
-          sudo ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@${{ secrets.DEV_HOST }} "nexpoint update"
+          echo "${{ secrets.SSH_PRIVATE_KEY }}" | tee ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@${{ secrets.DEV_HOST }} "nexpoint update"
