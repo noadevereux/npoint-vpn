@@ -72,4 +72,4 @@ jobs:
 
       - name: Deploy
         run: |
-          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@${{ secrets.DEV_HOST }} "nexpoint update"
+          ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa root@${{ secrets.DEV_HOST }} "nexpoint update && nexpoint cli admin import-from-env"
