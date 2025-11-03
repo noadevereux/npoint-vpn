@@ -200,6 +200,23 @@ class UserUsageResetLogs(Base):
     reset_at = Column(DateTime, default=datetime.utcnow)
 
 
+class UserLoginToken(Base):
+    __tablename__ = "user_login_tokens"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("users.id"), nullable=False, index=True)
+    token_hash = Column(String(128), nullable=False, unique=True, index=True)
+    created_at = Column(DateTime, default=datetime.utcnow, nullable=False)
+    expires_at = Column(DateTime, nullable=False)
+    used_at = Column(DateTime, nullable=True)
+    requested_ip = Column(String(45), nullable=True)
+    requested_user_agent = Column(String(512), nullable=True)
+    consumed_ip = Column(String(45), nullable=True)
+    consumed_user_agent = Column(String(512), nullable=True)
+
+    user = relationship("User")
+
+
 class Proxy(Base):
     __tablename__ = "proxies"
 

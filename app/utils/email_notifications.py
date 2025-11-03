@@ -95,6 +95,53 @@ class EmailNotificationManager:
         message["From"] = formataddr((from_name, self._settings.from_email))
         message.set_content(body)
 
+        self._deliver_email(message, f"email notification for trigger {trigger.value}")
+
+    def send_magic_link(
+        self,
+        *,
+        email: str,
+        username: Optional[str],
+        link: str,
+        expires_in_minutes: int,
+    ) -> bool:
+        identifier = username or email
+        if not email:
+            return False
+
+        self._ensure_configuration()
+        if not self._settings:
+            logger.warning("Magic link email skipped because SMTP settings are not configured")
+            return False
+
+        message = EmailMessage()
+        message["Subject"] = "Your VPN dashboard sign-in link"
+        message["To"] = email
+        from_name = self._settings.from_name or self._settings.from_email
+        message["From"] = formataddr((from_name, self._settings.from_email))
+        message.set_content(
+            self._wrap_message(
+                identifier,
+                [
+                    "Use the secure link below to open your dashboard:",
+                    link,
+                    f"This link expires in {expires_in_minutes} minute(s).",
+                    "If you did not request this email, you can safely ignore it.",
+                ],
+            )
+        )
+
+        return self._deliver_email(message, "magic link email")
+
+    def _login_if_required(self, smtp: smtplib.SMTP) -> None:
+        if self._settings and self._settings.username and self._settings.password:
+            smtp.login(self._settings.username, self._settings.password)
+
+    def _deliver_email(self, message: EmailMessage, context: str) -> bool:
+        if not self._settings:
+            logger.warning("Cannot send %s because SMTP settings are not configured", context)
+            return False
+
         try:
             if self._settings.use_ssl:
                 with smtplib.SMTP_SSL(self._settings.host, self._settings.port) as smtp:
@@ -106,12 +153,10 @@ class EmailNotificationManager:
                         smtp.starttls()
                     self._login_if_required(smtp)
                     smtp.send_message(message)
+            return True
         except Exception:
-            logger.exception("Failed to send email notification for trigger %s", trigger.value)
-
-    def _login_if_required(self, smtp: smtplib.SMTP) -> None:
-        if self._settings and self._settings.username and self._settings.password:
-            smtp.login(self._settings.username, self._settings.password)
+            logger.exception("Failed to send %s", context)
+            return False
 
     def _render(
         self, trigger: EmailNotificationTrigger, user: UserResponse, context: Dict[str, object]

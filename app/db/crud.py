@@ -2,9 +2,12 @@
 Functions for managing proxy hosts, users, user templates, nodes, and administrative tasks.
 """
 
+import secrets
 from datetime import datetime, timedelta
 from enum import Enum
 from typing import Any, Dict, List, Optional, Tuple, Union
+
+from hashlib import sha256
 
 from sqlalchemy import and_, delete, func, or_
 from sqlalchemy.orm import Query, Session, joinedload
@@ -30,6 +33,7 @@ from app.db.models import (
     User,
     UserTemplate,
     UserUsageResetLogs,
+    UserLoginToken,
 )
 from app.models.admin import AdminCreate, AdminModify, AdminPartialModify
 from app.models.node import NodeCreate, NodeModify, NodeStatus, NodeUsageResponse
@@ -47,6 +51,70 @@ from app.models.user import (
 from app.models.user_template import UserTemplateCreate, UserTemplateModify
 from app.utils.helpers import calculate_expiration_days, calculate_usage_percent
 from config import NOTIFY_DAYS_LEFT, NOTIFY_REACHED_USAGE_PERCENT, USERS_AUTODELETE_DAYS
+
+
+def _hash_login_token(token: str) -> str:
+    return sha256(token.encode("utf-8")).hexdigest()
+
+
+def _cleanup_login_tokens(db: Session, user_id: int) -> None:
+    cutoff = datetime.utcnow() - timedelta(days=2)
+    db.query(UserLoginToken).filter(
+        UserLoginToken.user_id == user_id,
+        UserLoginToken.created_at < cutoff,
+    ).delete(synchronize_session=False)
+
+
+def create_user_login_token(
+        db: Session,
+        user: User,
+        expires_in_minutes: int,
+        requested_ip: Optional[str] = None,
+        requested_user_agent: Optional[str] = None,
+) -> str:
+    _cleanup_login_tokens(db, user.id)
+
+    raw_token = secrets.token_urlsafe(32)
+    token = UserLoginToken(
+        user_id=user.id,
+        token_hash=_hash_login_token(raw_token),
+        expires_at=datetime.utcnow() + timedelta(minutes=expires_in_minutes),
+        requested_ip=requested_ip,
+        requested_user_agent=requested_user_agent,
+    )
+    db.add(token)
+    db.commit()
+    return raw_token
+
+
+def consume_user_login_token(
+        db: Session,
+        raw_token: str,
+        consumed_ip: Optional[str] = None,
+        consumed_user_agent: Optional[str] = None,
+) -> Tuple[Optional[User], Optional[str]]:
+    token_hash = _hash_login_token(raw_token)
+    login_token = (
+        db.query(UserLoginToken)
+        .options(joinedload(UserLoginToken.user))
+        .filter(UserLoginToken.token_hash == token_hash)
+        .first()
+    )
+
+    if not login_token or not login_token.user:
+        return None, "invalid"
+
+    if login_token.used_at:
+        return None, "used"
+
+    if login_token.expires_at < datetime.utcnow():
+        return None, "expired"
+
+    login_token.used_at = datetime.utcnow()
+    login_token.consumed_ip = consumed_ip
+    login_token.consumed_user_agent = consumed_user_agent
+    db.commit()
+    return login_token.user, None
 
 
 def add_default_host(db: Session, inbound: ProxyInbound):

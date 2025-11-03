@@ -8,7 +8,7 @@ from math import ceil
 from typing import Union
 
 
-from config import JWT_ACCESS_TOKEN_EXPIRE_MINUTES
+from config import JWT_ACCESS_TOKEN_EXPIRE_MINUTES, USER_SESSION_EXPIRE_MINUTES
 
 
 @lru_cache(maxsize=None)
@@ -40,6 +40,36 @@ def get_admin_payload(token: str) -> Union[dict, None]:
             created_at = None
 
         return {"username": username, "is_sudo": access == "sudo", "created_at": created_at}
+    except jwt.exceptions.PyJWTError:
+        return
+
+
+def create_user_session_token(user_id: int) -> str:
+    data = {"sub": str(user_id), "access": "user", "iat": datetime.utcnow()}
+    if USER_SESSION_EXPIRE_MINUTES > 0:
+        expire = datetime.utcnow() + timedelta(minutes=USER_SESSION_EXPIRE_MINUTES)
+        data["exp"] = expire
+    encoded_jwt = jwt.encode(data, get_secret_key(), algorithm="HS256")
+    return encoded_jwt
+
+
+def get_user_session_payload(token: str) -> Union[dict, None]:
+    try:
+        payload = jwt.decode(token, get_secret_key(), algorithms=["HS256"])
+        if payload.get("access") != "user":
+            return
+        user_id = payload.get("sub")
+        if user_id is None:
+            return
+        try:
+            created_at = datetime.utcfromtimestamp(payload["iat"])
+        except KeyError:
+            created_at = None
+        try:
+            user_id_int = int(user_id)
+        except (TypeError, ValueError):
+            return
+        return {"user_id": user_id_int, "created_at": created_at}
     except jwt.exceptions.PyJWTError:
         return
 
