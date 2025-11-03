@@ -3,9 +3,10 @@ from app.models.admin import AdminInDB, AdminValidationResult, Admin
 from app.models.user import UserResponse, UserStatus
 from app.db import Session, crud, get_db
 from config import SUDOERS
-from fastapi import Depends, HTTPException
+from fastapi import Cookie, Depends, HTTPException
 from datetime import datetime, timezone, timedelta
-from app.utils.jwt import get_subscription_payload
+from app.utils.jwt import get_subscription_payload, get_user_session_payload
+from config import USER_SESSION_COOKIE_NAME
 
 
 def validate_admin(db: Session, username: str, password: str) -> Optional[AdminValidationResult]:
@@ -82,6 +83,28 @@ def get_validated_sub(
 
     if dbuser.sub_revoked_at and dbuser.sub_revoked_at > sub['created_at']:
         raise HTTPException(status_code=404, detail="Not Found")
+
+    return dbuser
+
+
+def get_current_portal_user(
+    session_token: str | None = Cookie(default=None, alias=USER_SESSION_COOKIE_NAME),
+    db: Session = Depends(get_db)
+) -> UserResponse:
+    if not session_token:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    payload = get_user_session_payload(session_token)
+    if not payload:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    dbuser = crud.get_user_by_id(db, payload["user_id"])
+    if not dbuser:
+        raise HTTPException(status_code=401, detail="Not authenticated")
+
+    created_at = payload.get("created_at")
+    if created_at and dbuser.sub_revoked_at and dbuser.sub_revoked_at > created_at:
+        raise HTTPException(status_code=401, detail="Session expired")
 
     return dbuser
 

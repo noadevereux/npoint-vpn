@@ -1,1942 +1,715 @@
-<style>
-    html,
-    body {
-        height: 100%;
-    }
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>VPN Dashboard</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-    body {
-        overflow: hidden;
-        margin: 0;
-        perspective: 80em;
-        perspective-origin: 50% 0%;
-        background: black;
-        color: cyan;
-    }
-
-    .scene {
-        transform: translate(-15em, 15em) rotateX(75deg) rotate(22.5deg);
-    }
-
-    .scene,
-    .scene * {
-        box-sizing: border-box;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform-style: preserve-3d;
-    }
-
-    .assembly:nth-child(1) {
-        z-index: -1;
-        transform: translate(0, -5em);
-        animation: slide1 1s ease-in-out infinite;
-    }
-
-    @keyframes slide1 {
-        to {
-            transform: translate(3em, -5em);
+        :root {
+            color-scheme: dark;
+            --bg-gradient: radial-gradient(circle at top, #1f2937, #0f172a 55%);
+            --card-bg: rgba(15, 23, 42, 0.9);
+            --accent: #38bdf8;
+            --accent-muted: rgba(56, 189, 248, 0.1);
+            --danger: #f87171;
+            --warning: #fbbf24;
+            --success: #34d399;
+            --text-primary: #f9fafb;
+            --text-secondary: rgba(226, 232, 240, 0.8);
+            --border: rgba(148, 163, 184, 0.15);
+            --shadow: 0 24px 50px rgba(2, 6, 23, 0.55);
         }
-    }
 
-    .assembly:nth-child(1) .roller {
-        transform: rotateY(90deg) translateZ(1.5em) rotateY(-270deg);
-        animation: inherit;
-        animation-name: roll1a;
-    }
-
-    .assembly:nth-child(1) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-90deg) translateZ(-1.5em) rotateY(-90deg);
-        animation-name: roll1b;
-    }
-
-    @keyframes roll1a {
-        to {
-            transform: rotateY(-90deg) translateZ(1.5em) rotateY(-270deg);
+        * {
+            box-sizing: border-box;
         }
-    }
 
-    @keyframes roll1b {
-        to {
-            transform: rotateY(90deg) translateZ(-1.5em) rotateY(-90deg);
+        body {
+            margin: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-gradient);
+            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            color: var(--text-primary);
+            padding: 24px;
         }
-    }
 
-    .assembly:nth-child(1) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(1) .side:nth-child(1) {
-        transform: rotateY(0deg);
-    }
-
-    .assembly:nth-child(1) .side:nth-child(2) {
-        transform: rotateY(180deg);
-    }
-
-    .assembly:nth-child(2) {
-        z-index: -2;
-        transform: translate(0, -10em);
-        animation: slide2 1s ease-in-out infinite;
-    }
-
-    @keyframes slide2 {
-        to {
-            transform: translate(3em, -10em);
+        .layout {
+            width: min(1040px, 100%);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
         }
-    }
 
-    .assembly:nth-child(2) .roller {
-        transform: rotateY(60deg) translateZ(1.73205em) rotateY(-120deg);
-        animation: inherit;
-        animation-name: roll2a;
-    }
-
-    .assembly:nth-child(2) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-60deg) translateZ(-1.73205em) rotateY(-60deg);
-        animation-name: roll2b;
-    }
-
-    @keyframes roll2a {
-        to {
-            transform: rotateY(-60deg) translateZ(1.73205em) rotateY(-120deg);
+        .card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: clamp(24px, 4vw, 40px);
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
         }
-    }
 
-    @keyframes roll2b {
-        to {
-            transform: rotateY(60deg) translateZ(-1.73205em) rotateY(-60deg);
+        .card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(56, 189, 248, 0.18), rgba(59, 130, 246, 0.05));
+            opacity: 0.6;
+            pointer-events: none;
         }
-    }
 
-    .assembly:nth-child(2) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(2) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(0.86603em);
-    }
-
-    .assembly:nth-child(2) .side:nth-child(2) {
-        transform: rotateY(120deg) translateZ(0.86603em);
-    }
-
-    .assembly:nth-child(2) .side:nth-child(3) {
-        transform: rotateY(240deg) translateZ(0.86603em);
-    }
-
-    .assembly:nth-child(3) {
-        z-index: -3;
-        transform: translate(0, -15em);
-        animation: slide3 1s ease-in-out infinite;
-    }
-
-    @keyframes slide3 {
-        to {
-            transform: translate(3em, -15em);
+        .card > * {
+            position: relative;
+            z-index: 1;
         }
-    }
 
-    .assembly:nth-child(3) .roller {
-        transform: rotateY(45deg) translateZ(2.12132em) rotateY(-135deg);
-        animation: inherit;
-        animation-name: roll3a;
-    }
-
-    .assembly:nth-child(3) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-45deg) translateZ(-2.12132em) rotateY(-45deg);
-        animation-name: roll3b;
-    }
-
-    @keyframes roll3a {
-        to {
-            transform: rotateY(-45deg) translateZ(2.12132em) rotateY(-135deg);
+        h1, h2 {
+            margin: 0;
+            font-weight: 600;
         }
-    }
 
-    @keyframes roll3b {
-        to {
-            transform: rotateY(45deg) translateZ(-2.12132em) rotateY(-45deg);
+        h1 {
+            font-size: clamp(1.8rem, 3vw, 2.4rem);
         }
-    }
 
-    .assembly:nth-child(3) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(3) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(1.5em);
-    }
-
-    .assembly:nth-child(3) .side:nth-child(1):before {
-        height: 1.5em;
-        left: .125em;
-        width: calc(3em - .125em);
-    }
-
-    .assembly:nth-child(3) .side:nth-child(2) {
-        transform: rotateY(90deg) translateZ(1.5em);
-    }
-
-    .assembly:nth-child(3) .side:nth-child(2):before {
-        height: 1.5em;
-        left: .125em;
-        width: calc(3em - .125em);
-    }
-
-    .assembly:nth-child(3) .side:nth-child(3) {
-        transform: rotateY(180deg) translateZ(1.5em);
-    }
-
-    .assembly:nth-child(3) .side:nth-child(3):before {
-        height: 1.5em;
-        left: .125em;
-        width: calc(3em - .125em);
-    }
-
-    .assembly:nth-child(3) .side:nth-child(4) {
-        transform: rotateY(270deg) translateZ(1.5em);
-    }
-
-    .assembly:nth-child(3) .side:nth-child(4):before {
-        height: 1.5em;
-        left: .125em;
-        width: calc(3em - .125em);
-    }
-
-    .assembly:nth-child(4) {
-        z-index: -4;
-        transform: translate(0, -20em);
-        animation: slide4 1s ease-in-out infinite;
-    }
-
-    @keyframes slide4 {
-        to {
-            transform: translate(3em, -20em);
+        h2 {
+            font-size: clamp(1.2rem, 2.4vw, 1.6rem);
         }
-    }
 
-    .assembly:nth-child(4) .roller {
-        transform: rotateY(36deg) translateZ(2.55195em) rotateY(-72deg);
-        animation: inherit;
-        animation-name: roll4a;
-    }
-
-    .assembly:nth-child(4) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-36deg) translateZ(-2.55195em) rotateY(-36deg);
-        animation-name: roll4b;
-    }
-
-    @keyframes roll4a {
-        to {
-            transform: rotateY(-36deg) translateZ(2.55195em) rotateY(-72deg);
+        p {
+            color: var(--text-secondary);
+            margin: 8px 0 0;
+            line-height: 1.6;
         }
-    }
 
-    @keyframes roll4b {
-        to {
-            transform: rotateY(36deg) translateZ(-2.55195em) rotateY(-36deg);
+        form {
+            margin-top: 28px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
-    }
 
-    .assembly:nth-child(4) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(4) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(2.06457em);
-    }
-
-    .assembly:nth-child(4) .side:nth-child(1):before {
-        height: 2.06457em;
-    }
-
-    .assembly:nth-child(4) .side:nth-child(2) {
-        transform: rotateY(72deg) translateZ(2.06457em);
-    }
-
-    .assembly:nth-child(4) .side:nth-child(2):before {
-        height: 2.06457em;
-    }
-
-    .assembly:nth-child(4) .side:nth-child(3) {
-        transform: rotateY(144deg) translateZ(2.06457em);
-    }
-
-    .assembly:nth-child(4) .side:nth-child(3):before {
-        height: 2.06457em;
-    }
-
-    .assembly:nth-child(4) .side:nth-child(4) {
-        transform: rotateY(216deg) translateZ(2.06457em);
-    }
-
-    .assembly:nth-child(4) .side:nth-child(4):before {
-        height: 2.06457em;
-    }
-
-    .assembly:nth-child(4) .side:nth-child(5) {
-        transform: rotateY(288deg) translateZ(2.06457em);
-    }
-
-    .assembly:nth-child(4) .side:nth-child(5):before {
-        height: 2.06457em;
-    }
-
-    .assembly:nth-child(5) {
-        z-index: -5;
-        transform: translate(0, -25em);
-        animation: slide5 1s ease-in-out infinite;
-    }
-
-    @keyframes slide5 {
-        to {
-            transform: translate(3em, -25em);
+        label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--text-secondary);
         }
-    }
 
-    .assembly:nth-child(5) .roller {
-        transform: rotateY(30deg) translateZ(3em) rotateY(-90deg);
-        animation: inherit;
-        animation-name: roll5a;
-    }
-
-    .assembly:nth-child(5) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-30deg) translateZ(-3em) rotateY(-30deg);
-        animation-name: roll5b;
-    }
-
-    @keyframes roll5a {
-        to {
-            transform: rotateY(-30deg) translateZ(3em) rotateY(-90deg);
+        input[type="email"] {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 14px;
+            border: 1px solid var(--border);
+            background: rgba(15, 23, 42, 0.6);
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: border 0.2s ease, box-shadow 0.2s ease;
         }
-    }
 
-    @keyframes roll5b {
-        to {
-            transform: rotateY(30deg) translateZ(-3em) rotateY(-30deg);
+        input[type="email"]:focus {
+            outline: none;
+            border-color: rgba(56, 189, 248, 0.6);
+            box-shadow: 0 0 0 4px rgba(56, 189, 248, 0.15);
         }
-    }
 
-    .assembly:nth-child(5) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(5) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(2.59808em);
-    }
-
-    .assembly:nth-child(5) .side:nth-child(1):before {
-        height: 2.59808em;
-    }
-
-    .assembly:nth-child(5) .side:nth-child(2) {
-        transform: rotateY(60deg) translateZ(2.59808em);
-    }
-
-    .assembly:nth-child(5) .side:nth-child(2):before {
-        height: 2.59808em;
-    }
-
-    .assembly:nth-child(5) .side:nth-child(3) {
-        transform: rotateY(120deg) translateZ(2.59808em);
-    }
-
-    .assembly:nth-child(5) .side:nth-child(3):before {
-        height: 2.59808em;
-    }
-
-    .assembly:nth-child(5) .side:nth-child(4) {
-        transform: rotateY(180deg) translateZ(2.59808em);
-    }
-
-    .assembly:nth-child(5) .side:nth-child(4):before {
-        height: 2.59808em;
-    }
-
-    .assembly:nth-child(5) .side:nth-child(5) {
-        transform: rotateY(240deg) translateZ(2.59808em);
-    }
-
-    .assembly:nth-child(5) .side:nth-child(5):before {
-        height: 2.59808em;
-    }
-
-    .assembly:nth-child(5) .side:nth-child(6) {
-        transform: rotateY(300deg) translateZ(2.59808em);
-    }
-
-    .assembly:nth-child(5) .side:nth-child(6):before {
-        height: 2.59808em;
-    }
-
-    .assembly:nth-child(6) {
-        z-index: -6;
-        transform: translate(0, -30em);
-        animation: slide6 1s ease-in-out infinite;
-    }
-
-    @keyframes slide6 {
-        to {
-            transform: translate(3em, -30em);
+        button {
+            border: none;
+            border-radius: 14px;
+            padding: 14px 18px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.15s ease, box-shadow 0.15s ease;
         }
-    }
 
-    .assembly:nth-child(6) .roller {
-        transform: rotateY(25.71429deg) translateZ(3.45715em) rotateY(-51.42857deg);
-        animation: inherit;
-        animation-name: roll6a;
-    }
-
-    .assembly:nth-child(6) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-25.71429deg) translateZ(-3.45715em) rotateY(-25.71429deg);
-        animation-name: roll6b;
-    }
-
-    @keyframes roll6a {
-        to {
-            transform: rotateY(-25.71429deg) translateZ(3.45715em) rotateY(-51.42857deg);
+        button.primary {
+            background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+            color: #0f172a;
+            box-shadow: 0 12px 24px rgba(14, 165, 233, 0.35);
         }
-    }
 
-    @keyframes roll6b {
-        to {
-            transform: rotateY(25.71429deg) translateZ(-3.45715em) rotateY(-25.71429deg);
+        button.primary:disabled {
+            opacity: 0.6;
+            cursor: wait;
+            box-shadow: none;
         }
-    }
 
-    .assembly:nth-child(6) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(6) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(3.11478em);
-    }
-
-    .assembly:nth-child(6) .side:nth-child(1):before {
-        height: 3.11478em;
-    }
-
-    .assembly:nth-child(6) .side:nth-child(2) {
-        transform: rotateY(51.42857deg) translateZ(3.11478em);
-    }
-
-    .assembly:nth-child(6) .side:nth-child(2):before {
-        height: 3.11478em;
-    }
-
-    .assembly:nth-child(6) .side:nth-child(3) {
-        transform: rotateY(102.85714deg) translateZ(3.11478em);
-    }
-
-    .assembly:nth-child(6) .side:nth-child(3):before {
-        height: 3.11478em;
-    }
-
-    .assembly:nth-child(6) .side:nth-child(4) {
-        transform: rotateY(154.28571deg) translateZ(3.11478em);
-    }
-
-    .assembly:nth-child(6) .side:nth-child(4):before {
-        height: 3.11478em;
-    }
-
-    .assembly:nth-child(6) .side:nth-child(5) {
-        transform: rotateY(205.71429deg) translateZ(3.11478em);
-    }
-
-    .assembly:nth-child(6) .side:nth-child(5):before {
-        height: 3.11478em;
-    }
-
-    .assembly:nth-child(6) .side:nth-child(6) {
-        transform: rotateY(257.14286deg) translateZ(3.11478em);
-    }
-
-    .assembly:nth-child(6) .side:nth-child(6):before {
-        height: 3.11478em;
-    }
-
-    .assembly:nth-child(6) .side:nth-child(7) {
-        transform: rotateY(308.57143deg) translateZ(3.11478em);
-    }
-
-    .assembly:nth-child(6) .side:nth-child(7):before {
-        height: 3.11478em;
-    }
-
-    .assembly:nth-child(7) {
-        z-index: -7;
-        transform: translate(0, -35em);
-        animation: slide7 1s ease-in-out infinite;
-    }
-
-    @keyframes slide7 {
-        to {
-            transform: translate(3em, -35em);
+        button.secondary {
+            background: rgba(148, 163, 184, 0.18);
+            color: var(--text-primary);
         }
-    }
 
-    .assembly:nth-child(7) .roller {
-        transform: rotateY(22.5deg) translateZ(3.91969em) rotateY(-67.5deg);
-        animation: inherit;
-        animation-name: roll7a;
-    }
-
-    .assembly:nth-child(7) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-22.5deg) translateZ(-3.91969em) rotateY(-22.5deg);
-        animation-name: roll7b;
-    }
-
-    @keyframes roll7a {
-        to {
-            transform: rotateY(-22.5deg) translateZ(3.91969em) rotateY(-67.5deg);
+        button.ghost {
+            background: transparent;
+            color: var(--accent);
         }
-    }
 
-    @keyframes roll7b {
-        to {
-            transform: rotateY(22.5deg) translateZ(-3.91969em) rotateY(-22.5deg);
+        button:hover:not(:disabled) {
+            transform: translateY(-1px);
         }
-    }
 
-    .assembly:nth-child(7) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(7) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(3.62132em);
-    }
-
-    .assembly:nth-child(7) .side:nth-child(1):before {
-        height: 3.62132em;
-    }
-
-    .assembly:nth-child(7) .side:nth-child(2) {
-        transform: rotateY(45deg) translateZ(3.62132em);
-    }
-
-    .assembly:nth-child(7) .side:nth-child(2):before {
-        height: 3.62132em;
-    }
-
-    .assembly:nth-child(7) .side:nth-child(3) {
-        transform: rotateY(90deg) translateZ(3.62132em);
-    }
-
-    .assembly:nth-child(7) .side:nth-child(3):before {
-        height: 3.62132em;
-    }
-
-    .assembly:nth-child(7) .side:nth-child(4) {
-        transform: rotateY(135deg) translateZ(3.62132em);
-    }
-
-    .assembly:nth-child(7) .side:nth-child(4):before {
-        height: 3.62132em;
-    }
-
-    .assembly:nth-child(7) .side:nth-child(5) {
-        transform: rotateY(180deg) translateZ(3.62132em);
-    }
-
-    .assembly:nth-child(7) .side:nth-child(5):before {
-        height: 3.62132em;
-    }
-
-    .assembly:nth-child(7) .side:nth-child(6) {
-        transform: rotateY(225deg) translateZ(3.62132em);
-    }
-
-    .assembly:nth-child(7) .side:nth-child(6):before {
-        height: 3.62132em;
-    }
-
-    .assembly:nth-child(7) .side:nth-child(7) {
-        transform: rotateY(270deg) translateZ(3.62132em);
-    }
-
-    .assembly:nth-child(7) .side:nth-child(7):before {
-        height: 3.62132em;
-    }
-
-    .assembly:nth-child(7) .side:nth-child(8) {
-        transform: rotateY(315deg) translateZ(3.62132em);
-    }
-
-    .assembly:nth-child(7) .side:nth-child(8):before {
-        height: 3.62132em;
-    }
-
-    .assembly:nth-child(8) {
-        z-index: -8;
-        transform: translate(0, -40em);
-        animation: slide8 1s ease-in-out infinite;
-    }
-
-    @keyframes slide8 {
-        to {
-            transform: translate(3em, -40em);
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 14px;
+            border-radius: 999px;
+            font-weight: 600;
+            letter-spacing: 0.01em;
+            background: var(--accent-muted);
+            color: var(--accent);
         }
-    }
 
-    .assembly:nth-child(8) .roller {
-        transform: rotateY(20deg) translateZ(4.38571em) rotateY(-40deg);
-        animation: inherit;
-        animation-name: roll8a;
-    }
-
-    .assembly:nth-child(8) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-20deg) translateZ(-4.38571em) rotateY(-20deg);
-        animation-name: roll8b;
-    }
-
-    @keyframes roll8a {
-        to {
-            transform: rotateY(-20deg) translateZ(4.38571em) rotateY(-40deg);
+        .status-badge[data-state="disabled"],
+        .status-badge[data-state="limited"],
+        .status-badge[data-state="expired"],
+        .status-badge[data-state="on_hold"] {
+            background: rgba(248, 113, 113, 0.12);
+            color: var(--danger);
         }
-    }
 
-    @keyframes roll8b {
-        to {
-            transform: rotateY(20deg) translateZ(-4.38571em) rotateY(-20deg);
+        .status-badge[data-state="limited"] {
+            background: rgba(251, 191, 36, 0.15);
+            color: var(--warning);
         }
-    }
 
-    .assembly:nth-child(8) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(8) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(4.12122em);
-    }
-
-    .assembly:nth-child(8) .side:nth-child(1):before {
-        height: 4.12122em;
-    }
-
-    .assembly:nth-child(8) .side:nth-child(2) {
-        transform: rotateY(40deg) translateZ(4.12122em);
-    }
-
-    .assembly:nth-child(8) .side:nth-child(2):before {
-        height: 4.12122em;
-    }
-
-    .assembly:nth-child(8) .side:nth-child(3) {
-        transform: rotateY(80deg) translateZ(4.12122em);
-    }
-
-    .assembly:nth-child(8) .side:nth-child(3):before {
-        height: 4.12122em;
-    }
-
-    .assembly:nth-child(8) .side:nth-child(4) {
-        transform: rotateY(120deg) translateZ(4.12122em);
-    }
-
-    .assembly:nth-child(8) .side:nth-child(4):before {
-        height: 4.12122em;
-    }
-
-    .assembly:nth-child(8) .side:nth-child(5) {
-        transform: rotateY(160deg) translateZ(4.12122em);
-    }
-
-    .assembly:nth-child(8) .side:nth-child(5):before {
-        height: 4.12122em;
-    }
-
-    .assembly:nth-child(8) .side:nth-child(6) {
-        transform: rotateY(200deg) translateZ(4.12122em);
-    }
-
-    .assembly:nth-child(8) .side:nth-child(6):before {
-        height: 4.12122em;
-    }
-
-    .assembly:nth-child(8) .side:nth-child(7) {
-        transform: rotateY(240deg) translateZ(4.12122em);
-    }
-
-    .assembly:nth-child(8) .side:nth-child(7):before {
-        height: 4.12122em;
-    }
-
-    .assembly:nth-child(8) .side:nth-child(8) {
-        transform: rotateY(280deg) translateZ(4.12122em);
-    }
-
-    .assembly:nth-child(8) .side:nth-child(8):before {
-        height: 4.12122em;
-    }
-
-    .assembly:nth-child(8) .side:nth-child(9) {
-        transform: rotateY(320deg) translateZ(4.12122em);
-    }
-
-    .assembly:nth-child(8) .side:nth-child(9):before {
-        height: 4.12122em;
-    }
-
-    .assembly:nth-child(9) {
-        z-index: -9;
-        transform: translate(0, -45em);
-        animation: slide9 1s ease-in-out infinite;
-    }
-
-    @keyframes slide9 {
-        to {
-            transform: translate(3em, -45em);
+        .status-badge[data-state="on_hold"] {
+            background: rgba(129, 140, 248, 0.18);
+            color: #a5b4fc;
         }
-    }
 
-    .assembly:nth-child(9) .roller {
-        transform: rotateY(18deg) translateZ(4.8541em) rotateY(-54deg);
-        animation: inherit;
-        animation-name: roll9a;
-    }
-
-    .assembly:nth-child(9) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-18deg) translateZ(-4.8541em) rotateY(-18deg);
-        animation-name: roll9b;
-    }
-
-    @keyframes roll9a {
-        to {
-            transform: rotateY(-18deg) translateZ(4.8541em) rotateY(-54deg);
+        .dashboard-grid {
+            margin-top: 30px;
+            display: grid;
+            gap: 18px;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
         }
-    }
 
-    @keyframes roll9b {
-        to {
-            transform: rotateY(18deg) translateZ(-4.8541em) rotateY(-18deg);
+        .metric {
+            background: rgba(15, 23, 42, 0.7);
+            border-radius: 18px;
+            padding: 18px;
+            border: 1px solid rgba(148, 163, 184, 0.12);
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
         }
-    }
 
-    .assembly:nth-child(9) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(1):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(2) {
-        transform: rotateY(36deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(2):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(3) {
-        transform: rotateY(72deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(3):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(4) {
-        transform: rotateY(108deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(4):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(5) {
-        transform: rotateY(144deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(5):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(6) {
-        transform: rotateY(180deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(6):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(7) {
-        transform: rotateY(216deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(7):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(8) {
-        transform: rotateY(252deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(8):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(9) {
-        transform: rotateY(288deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(9):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(9) .side:nth-child(10) {
-        transform: rotateY(324deg) translateZ(4.61653em);
-    }
-
-    .assembly:nth-child(9) .side:nth-child(10):before {
-        height: 4.61653em;
-    }
-
-    .assembly:nth-child(10) {
-        z-index: -10;
-        transform: translate(0, -50em);
-        animation: slide10 1s ease-in-out infinite;
-    }
-
-    @keyframes slide10 {
-        to {
-            transform: translate(3em, -50em);
+        .metric span.label {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: var(--text-secondary);
         }
-    }
 
-    .assembly:nth-child(10) .roller {
-        transform: rotateY(16.36364deg) translateZ(5.3242em) rotateY(-32.72727deg);
-        animation: inherit;
-        animation-name: roll10a;
-    }
-
-    .assembly:nth-child(10) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-16.36364deg) translateZ(-5.3242em) rotateY(-16.36364deg);
-        animation-name: roll10b;
-    }
-
-    @keyframes roll10a {
-        to {
-            transform: rotateY(-16.36364deg) translateZ(5.3242em) rotateY(-32.72727deg);
+        .metric span.value {
+            font-size: 1.4rem;
+            font-weight: 600;
         }
-    }
 
-    @keyframes roll10b {
-        to {
-            transform: rotateY(16.36364deg) translateZ(-5.3242em) rotateY(-16.36364deg);
+        .section {
+            margin-top: 36px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
         }
-    }
 
-    .assembly:nth-child(10) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(1):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(2) {
-        transform: rotateY(32.72727deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(2):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(3) {
-        transform: rotateY(65.45455deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(3):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(4) {
-        transform: rotateY(98.18182deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(4):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(5) {
-        transform: rotateY(130.90909deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(5):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(6) {
-        transform: rotateY(163.63636deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(6):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(7) {
-        transform: rotateY(196.36364deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(7):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(8) {
-        transform: rotateY(229.09091deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(8):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(9) {
-        transform: rotateY(261.81818deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(9):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(10) {
-        transform: rotateY(294.54545deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(10):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(10) .side:nth-child(11) {
-        transform: rotateY(327.27273deg) translateZ(5.10853em);
-    }
-
-    .assembly:nth-child(10) .side:nth-child(11):before {
-        height: 5.10853em;
-    }
-
-    .assembly:nth-child(11) {
-        z-index: -11;
-        transform: translate(0, -55em);
-        animation: slide11 1s ease-in-out infinite;
-    }
-
-    @keyframes slide11 {
-        to {
-            transform: translate(3em, -55em);
+        .link-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
         }
-    }
 
-    .assembly:nth-child(11) .roller {
-        transform: rotateY(15deg) translateZ(5.79555em) rotateY(-45deg);
-        animation: inherit;
-        animation-name: roll11a;
-    }
-
-    .assembly:nth-child(11) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-15deg) translateZ(-5.79555em) rotateY(-15deg);
-        animation-name: roll11b;
-    }
-
-    @keyframes roll11a {
-        to {
-            transform: rotateY(-15deg) translateZ(5.79555em) rotateY(-45deg);
+        .link-row {
+            background: rgba(15, 23, 42, 0.65);
+            border: 1px solid rgba(148, 163, 184, 0.1);
+            border-radius: 16px;
+            padding: 14px 16px;
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            justify-content: space-between;
         }
-    }
 
-    @keyframes roll11b {
-        to {
-            transform: rotateY(15deg) translateZ(-5.79555em) rotateY(-15deg);
+        .link-row .details {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
         }
-    }
 
-    .assembly:nth-child(11) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(1):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(2) {
-        transform: rotateY(30deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(2):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(3) {
-        transform: rotateY(60deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(3):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(4) {
-        transform: rotateY(90deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(4):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(5) {
-        transform: rotateY(120deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(5):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(6) {
-        transform: rotateY(150deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(6):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(7) {
-        transform: rotateY(180deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(7):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(8) {
-        transform: rotateY(210deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(8):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(9) {
-        transform: rotateY(240deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(9):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(10) {
-        transform: rotateY(270deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(10):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(11) {
-        transform: rotateY(300deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(11):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(11) .side:nth-child(12) {
-        transform: rotateY(330deg) translateZ(5.59808em);
-    }
-
-    .assembly:nth-child(11) .side:nth-child(12):before {
-        height: 5.59808em;
-    }
-
-    .assembly:nth-child(12) {
-        z-index: -12;
-        transform: translate(0, -60em);
-        animation: slide12 1s ease-in-out infinite;
-    }
-
-    @keyframes slide12 {
-        to {
-            transform: translate(3em, -60em);
+        .link-row .title {
+            font-weight: 600;
         }
-    }
 
-    .assembly:nth-child(12) .roller {
-        transform: rotateY(13.84615deg) translateZ(6.26787em) rotateY(-27.69231deg);
-        animation: inherit;
-        animation-name: roll12a;
-    }
-
-    .assembly:nth-child(12) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-13.84615deg) translateZ(-6.26787em) rotateY(-13.84615deg);
-        animation-name: roll12b;
-    }
-
-    @keyframes roll12a {
-        to {
-            transform: rotateY(-13.84615deg) translateZ(6.26787em) rotateY(-27.69231deg);
+        .link-row .subtitle {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
         }
-    }
 
-    @keyframes roll12b {
-        to {
-            transform: rotateY(13.84615deg) translateZ(-6.26787em) rotateY(-13.84615deg);
+        .code-snippet {
+            font-family: 'JetBrains Mono', 'Fira Mono', monospace;
+            font-size: 0.85rem;
+            word-break: break-all;
+            color: var(--text-secondary);
         }
-    }
 
-    .assembly:nth-child(12) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(1):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(2) {
-        transform: rotateY(27.69231deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(2):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(3) {
-        transform: rotateY(55.38462deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(3):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(4) {
-        transform: rotateY(83.07692deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(4):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(5) {
-        transform: rotateY(110.76923deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(5):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(6) {
-        transform: rotateY(138.46154deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(6):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(7) {
-        transform: rotateY(166.15385deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(7):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(8) {
-        transform: rotateY(193.84615deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(8):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(9) {
-        transform: rotateY(221.53846deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(9):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(10) {
-        transform: rotateY(249.23077deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(10):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(11) {
-        transform: rotateY(276.92308deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(11):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(12) {
-        transform: rotateY(304.61538deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(12):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(12) .side:nth-child(13) {
-        transform: rotateY(332.30769deg) translateZ(6.08574em);
-    }
-
-    .assembly:nth-child(12) .side:nth-child(13):before {
-        height: 6.08574em;
-    }
-
-    .assembly:nth-child(13) {
-        z-index: -13;
-        transform: translate(0, -65em);
-        animation: slide13 1s ease-in-out infinite;
-    }
-
-    @keyframes slide13 {
-        to {
-            transform: translate(3em, -65em);
+        .empty-state {
+            border: 1px dashed rgba(148, 163, 184, 0.2);
+            border-radius: 16px;
+            padding: 24px;
+            text-align: center;
+            color: var(--text-secondary);
         }
-    }
 
-    .assembly:nth-child(13) .roller {
-        transform: rotateY(12.85714deg) translateZ(6.74094em) rotateY(-38.57143deg);
-        animation: inherit;
-        animation-name: roll13a;
-    }
-
-    .assembly:nth-child(13) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-12.85714deg) translateZ(-6.74094em) rotateY(-12.85714deg);
-        animation-name: roll13b;
-    }
-
-    @keyframes roll13a {
-        to {
-            transform: rotateY(-12.85714deg) translateZ(6.74094em) rotateY(-38.57143deg);
+        .toast {
+            position: fixed;
+            left: 50%;
+            bottom: 32px;
+            transform: translateX(-50%);
+            background: rgba(15, 23, 42, 0.95);
+            border-radius: 999px;
+            border: 1px solid rgba(148, 163, 184, 0.2);
+            padding: 12px 22px;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: var(--shadow);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease, transform 0.3s ease;
         }
-    }
 
-    @keyframes roll13b {
-        to {
-            transform: rotateY(12.85714deg) translateZ(-6.74094em) rotateY(-12.85714deg);
+        .toast.show {
+            opacity: 1;
+            transform: translate(-50%, 0);
+            pointer-events: auto;
         }
-    }
 
-    .assembly:nth-child(13) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(1):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(2) {
-        transform: rotateY(25.71429deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(2):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(3) {
-        transform: rotateY(51.42857deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(3):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(4) {
-        transform: rotateY(77.14286deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(4):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(5) {
-        transform: rotateY(102.85714deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(5):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(6) {
-        transform: rotateY(128.57143deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(6):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(7) {
-        transform: rotateY(154.28571deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(7):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(8) {
-        transform: rotateY(180deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(8):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(9) {
-        transform: rotateY(205.71429deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(9):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(10) {
-        transform: rotateY(231.42857deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(10):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(11) {
-        transform: rotateY(257.14286deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(11):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(12) {
-        transform: rotateY(282.85714deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(12):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(13) {
-        transform: rotateY(308.57143deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(13):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(13) .side:nth-child(14) {
-        transform: rotateY(334.28571deg) translateZ(6.57193em);
-    }
-
-    .assembly:nth-child(13) .side:nth-child(14):before {
-        height: 6.57193em;
-    }
-
-    .assembly:nth-child(14) {
-        z-index: -14;
-        transform: translate(0, -70em);
-        animation: slide14 1s ease-in-out infinite;
-    }
-
-    @keyframes slide14 {
-        to {
-            transform: translate(3em, -70em);
+        .hidden {
+            display: none !important;
         }
-    }
 
-    .assembly:nth-child(14) .roller {
-        transform: rotateY(12deg) translateZ(7.2146em) rotateY(-24deg);
-        animation: inherit;
-        animation-name: roll14a;
-    }
+        @media (max-width: 720px) {
+            body {
+                padding: 16px;
+            }
 
-    .assembly:nth-child(14) .roller:last-child {
-        z-index: -1;
-        margin: 0 12em;
-        transform: rotateY(-12deg) translateZ(-7.2146em) rotateY(-12deg);
-        animation-name: roll14b;
-    }
+            .link-row {
+                flex-direction: column;
+                align-items: flex-start;
+            }
 
-    @keyframes roll14a {
-        to {
-            transform: rotateY(-12deg) translateZ(7.2146em) rotateY(-24deg);
+            button.secondary {
+                width: 100%;
+            }
         }
-    }
+    </style>
+</head>
+<body>
+<div class="layout">
+    <div id="toast" class="toast" role="status"></div>
 
-    @keyframes roll14b {
-        to {
-            transform: rotateY(12deg) translateZ(-7.2146em) rotateY(-12deg);
-        }
-    }
+    <section id="login-card" class="card hidden" aria-labelledby="login-title">
+        <h1 id="login-title">Welcome back</h1>
+        <p>Sign in with your email address and we'll send you a one-time magic link to access your dashboard.</p>
 
-    .assembly:nth-child(14) .side {
-        margin: -2em -1.5em;
-        width: 3em;
-        height: 4em;
-    }
+        <form id="magic-form" novalidate>
+            <div>
+                <label for="email">Email address</label>
+                <input id="email" type="email" name="email" autocomplete="email" required
+                       placeholder="you@example.com">
+            </div>
+            <button class="primary" type="submit" id="magic-submit">Send magic link</button>
+        </form>
 
-    .assembly:nth-child(14) .side:nth-child(1) {
-        transform: rotateY(0deg) translateZ(7.05695em);
-    }
+        <p class="footnote">Need help? Contact your administrator if you do not receive an email within a minute.</p>
+    </section>
 
-    .assembly:nth-child(14) .side:nth-child(1):before {
-        height: 7.05695em;
-    }
+    <section id="dashboard-card" class="card hidden" aria-live="polite">
+        <header style="display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; flex-wrap: wrap;">
+            <div>
+                <h1>Hello, <span id="user-name">there</span> 👋</h1>
+                <p id="status-text">Here is the current status of your VPN access.</p>
+            </div>
+            <button class="secondary" id="logout-btn" type="button">Log out</button>
+        </header>
 
-    .assembly:nth-child(14) .side:nth-child(2) {
-        transform: rotateY(24deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(2):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(3) {
-        transform: rotateY(48deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(3):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(4) {
-        transform: rotateY(72deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(4):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(5) {
-        transform: rotateY(96deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(5):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(6) {
-        transform: rotateY(120deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(6):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(7) {
-        transform: rotateY(144deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(7):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(8) {
-        transform: rotateY(168deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(8):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(9) {
-        transform: rotateY(192deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(9):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(10) {
-        transform: rotateY(216deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(10):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(11) {
-        transform: rotateY(240deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(11):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(12) {
-        transform: rotateY(264deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(12):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(13) {
-        transform: rotateY(288deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(13):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(14) {
-        transform: rotateY(312deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(14):before {
-        height: 7.05695em;
-    }
-
-    .assembly:nth-child(14) .side:nth-child(15) {
-        transform: rotateY(336deg) translateZ(7.05695em);
-    }
-
-    .assembly:nth-child(14) .side:nth-child(15):before {
-        height: 7.05695em;
-    }
-
-    .strip {
-        margin: -2em -1px;
-        width: 12em;
-        height: 4em;
-        border: solid 0.125em cyan;
-        background: linear-gradient(90deg, #00ffff 0.125em, rgba(0, 0, 0, 0) 0%) black;
-        background-size: 3em 100%;
-    }
-
-    .side:before,
-    .side:after {
-        box-sizing: border-box;
-        position: absolute;
-        left: 0;
-        width: inherit;
-        backface-visibility: hidden;
-        content: '';
-    }
-
-    .side:before {
-        top: 100%;
-        height: .125em;
-        transform-origin: 50% 0;
-        transform: rotateX(-90deg);
-        border-top: solid 0.125em cyan;
-        background: black;
-    }
-
-    .side:after {
-        height: inherit;
-        border: solid 0.125em cyan;
-        background: black;
-    }
-</style>
-<div class='scene'>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
+        <div style="margin-top: 20px; display: flex; gap: 12px; flex-wrap: wrap; align-items: center;">
+            <span id="status-badge" class="status-badge" data-state="active">Active</span>
+            <span id="status-hint" style="color: var(--text-secondary);"></span>
         </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
+
+        <div class="dashboard-grid">
+            <div class="metric">
+                <span class="label">Data used</span>
+                <span class="value" id="data-used">—</span>
+                <span class="label" id="data-used-total">Lifetime —</span>
+            </div>
+            <div class="metric">
+                <span class="label">Data limit</span>
+                <span class="value" id="data-limit">—</span>
+                <span class="label" id="data-reset">Reset schedule —</span>
+            </div>
+            <div class="metric">
+                <span class="label">Usage</span>
+                <span class="value" id="usage-percent">—</span>
+                <span class="label" id="usage-detail">Unlimited plan</span>
+            </div>
+            <div class="metric">
+                <span class="label">Expires</span>
+                <span class="value" id="expire-date">—</span>
+                <span class="label" id="expire-detail">No expiration date</span>
+            </div>
         </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
+
+        <div class="section">
+            <div>
+                <h2>Subscription links</h2>
+                <p>Import these links into your favorite client to keep configurations automatically updated.</p>
+            </div>
+            <div id="subscription-links" class="link-list"></div>
         </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
+
+        <div class="section">
+            <div>
+                <h2>Direct connection links</h2>
+                <p>Use these if you prefer to add individual nodes manually.</p>
+            </div>
+            <div id="node-links" class="link-list"></div>
         </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
-    <div class='assembly'>
-        <div class='strip'></div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-        <div class='roller'>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-            <div class='side'></div>
-        </div>
-    </div>
+    </section>
 </div>
+
+<template id="subscription-link-template">
+    <div class="link-row">
+        <div class="details">
+            <span class="title"></span>
+            <span class="subtitle"></span>
+        </div>
+        <div class="actions">
+            <button class="ghost" type="button" data-action="copy">Copy link</button>
+        </div>
+    </div>
+</template>
+
+<template id="node-link-template">
+    <div class="link-row">
+        <code class="code-snippet"></code>
+        <button class="ghost" type="button" data-action="copy">Copy link</button>
+    </div>
+</template>
+
+<script>
+    const selectors = {
+        loginCard: document.getElementById('login-card'),
+        dashboard: document.getElementById('dashboard-card'),
+        toast: document.getElementById('toast'),
+        emailInput: document.getElementById('email'),
+        magicForm: document.getElementById('magic-form'),
+        magicSubmit: document.getElementById('magic-submit'),
+        userName: document.getElementById('user-name'),
+        statusText: document.getElementById('status-text'),
+        statusBadge: document.getElementById('status-badge'),
+        statusHint: document.getElementById('status-hint'),
+        dataUsed: document.getElementById('data-used'),
+        dataUsedTotal: document.getElementById('data-used-total'),
+        dataLimit: document.getElementById('data-limit'),
+        dataReset: document.getElementById('data-reset'),
+        usagePercent: document.getElementById('usage-percent'),
+        usageDetail: document.getElementById('usage-detail'),
+        expireDate: document.getElementById('expire-date'),
+        expireDetail: document.getElementById('expire-detail'),
+        subscriptionLinks: document.getElementById('subscription-links'),
+        nodeLinks: document.getElementById('node-links'),
+        logoutBtn: document.getElementById('logout-btn'),
+    };
+
+    const templates = {
+        subscription: document.getElementById('subscription-link-template'),
+        node: document.getElementById('node-link-template'),
+    };
+
+    const state = {
+        user: null,
+    };
+
+    const statusMessages = {
+        active: {
+            hint: 'Everything is running smoothly.',
+        },
+        disabled: {
+            hint: 'Your access is disabled. Contact support for more information.',
+        },
+        limited: {
+            hint: 'Data usage exceeded the current plan. Consider upgrading or waiting for the next reset.',
+        },
+        expired: {
+            hint: 'Subscription expired. Reach out to renew your service.',
+        },
+        on_hold: {
+            hint: 'Your account is temporarily on hold.',
+        },
+    };
+
+    const subscriptionDescriptions = {
+        universal: 'Works with most clients that support generic subscription URLs.',
+        clash: 'Optimized for Clash and Clash Verge clients.',
+        clash_meta: 'Tailored for Clash.Meta with advanced protocol support.',
+        sing_box: 'Sing-box configuration with smart routing.',
+        outline: 'Outline-compatible configuration in JSON format.',
+        v2ray: 'Legacy V2Ray subscription encoded in base64.',
+        v2ray_json: 'Modern V2Ray JSON subscription for newer clients.',
+    };
+
+    const subscriptionLabels = {
+        universal: 'Universal',
+        clash: 'Clash',
+        clash_meta: 'Clash Meta',
+        sing_box: 'Sing-box',
+        outline: 'Outline',
+        v2ray: 'V2Ray (legacy)',
+        v2ray_json: 'V2Ray JSON',
+    };
+
+    const resetStrategyLabels = {
+        no_reset: 'Does not reset automatically',
+        day: 'Resets daily',
+        week: 'Resets weekly',
+        month: 'Resets monthly',
+        year: 'Resets yearly',
+    };
+
+    function formatBytes(bytes) {
+        if (!Number.isFinite(bytes) || bytes <= 0) {
+            return '0 B';
+        }
+        const units = ['B', 'KB', 'MB', 'GB', 'TB', 'PB'];
+        const exponent = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+        const value = bytes / Math.pow(1024, exponent);
+        return `${value.toFixed(value >= 10 ? 0 : 1)} ${units[exponent]}`;
+    }
+
+    function formatDate(dateString) {
+        if (!dateString) return 'No expiration';
+        const date = new Date(dateString);
+        if (Number.isNaN(date.getTime())) return 'Unknown';
+        return date.toLocaleString(undefined, {
+            year: 'numeric',
+            month: 'short',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
+    }
+
+    function showToast(message, timeout = 4000) {
+        selectors.toast.textContent = message;
+        selectors.toast.classList.add('show');
+        window.setTimeout(() => selectors.toast.classList.remove('show'), timeout);
+    }
+
+    function showLogin() {
+        selectors.dashboard.classList.add('hidden');
+        selectors.loginCard.classList.remove('hidden');
+    }
+
+    function showDashboard() {
+        selectors.loginCard.classList.add('hidden');
+        selectors.dashboard.classList.remove('hidden');
+    }
+
+    function getQueryParams() {
+        const params = new URLSearchParams(window.location.search);
+        return Object.fromEntries(params.entries());
+    }
+
+    function clearQueryParams() {
+        if (window.history.replaceState) {
+            const url = new URL(window.location.href);
+            url.search = '';
+            window.history.replaceState({}, document.title, url.toString());
+        }
+    }
+
+    function renderSubscriptionLinks(subscription) {
+        selectors.subscriptionLinks.innerHTML = '';
+        const entries = Object.entries(subscription || {});
+        if (!entries.length) {
+            const empty = document.createElement('div');
+            empty.className = 'empty-state';
+            empty.textContent = 'No subscription links available. Contact your administrator.';
+            selectors.subscriptionLinks.appendChild(empty);
+            return;
+        }
+
+        entries.forEach(([key, value]) => {
+            const template = templates.subscription.content.cloneNode(true);
+            template.querySelector('.title').textContent = subscriptionLabels[key] || key;
+            const subtitle = template.querySelector('.subtitle');
+            subtitle.textContent = subscriptionDescriptions[key] || '';
+            subtitle.title = value;
+            const button = template.querySelector('[data-action="copy"]');
+            button.setAttribute('aria-label', `Copy ${subscriptionLabels[key] || key} subscription link`);
+            button.addEventListener('click', () => copyToClipboard(value));
+            selectors.subscriptionLinks.appendChild(template);
+        });
+    }
+
+    function renderNodeLinks(links) {
+        selectors.nodeLinks.innerHTML = '';
+        if (!links || !links.length) {
+            const empty = document.createElement('div');
+            empty.className = 'empty-state';
+            empty.textContent = 'No individual node links available.';
+            selectors.nodeLinks.appendChild(empty);
+            return;
+        }
+
+        links.forEach((link) => {
+            const template = templates.node.content.cloneNode(true);
+            const snippet = template.querySelector('.code-snippet');
+            snippet.textContent = link;
+            snippet.title = link;
+            const button = template.querySelector('[data-action="copy"]');
+            button.setAttribute('aria-label', 'Copy node link');
+            button.addEventListener('click', () => copyToClipboard(link));
+            selectors.nodeLinks.appendChild(template);
+        });
+    }
+
+    function copyToClipboard(value) {
+        navigator.clipboard.writeText(value).then(() => {
+            showToast('Link copied to clipboard');
+        }).catch(() => {
+            showToast('Unable to copy link. Please copy it manually.');
+        });
+    }
+
+    function updateDashboard(user) {
+        selectors.userName.textContent = user.username;
+        selectors.statusBadge.textContent = user.status_label;
+        selectors.statusBadge.dataset.state = user.status;
+        const statusInfo = statusMessages[user.status] || statusMessages.active;
+        selectors.statusHint.textContent = statusInfo.hint;
+
+        selectors.dataUsed.textContent = formatBytes(user.used_traffic);
+        selectors.dataUsedTotal.textContent = `Lifetime ${formatBytes(user.lifetime_used_traffic)}`;
+
+        if (!user.data_limit || user.data_limit === 0) {
+            selectors.dataLimit.textContent = 'Unlimited';
+            selectors.dataReset.textContent = resetStrategyLabels[user.data_limit_reset_strategy] || 'No reset';
+            selectors.usagePercent.textContent = '∞';
+            selectors.usageDetail.textContent = 'Unlimited usage available.';
+        } else {
+            selectors.dataLimit.textContent = formatBytes(user.data_limit);
+            selectors.dataReset.textContent = resetStrategyLabels[user.data_limit_reset_strategy] || 'No reset';
+            selectors.usagePercent.textContent = `${user.usage_percent?.toFixed(1) ?? '0.0'} %`;
+            const remaining = user.data_limit - user.used_traffic;
+            selectors.usageDetail.textContent = `${formatBytes(remaining)} remaining.`;
+        }
+
+        if (user.expire_at) {
+            selectors.expireDate.textContent = formatDate(user.expire_at);
+            selectors.expireDetail.textContent = 'Local timezone shown above.';
+        } else {
+            selectors.expireDate.textContent = 'No expiration';
+            selectors.expireDetail.textContent = 'Your access does not expire.';
+        }
+
+        renderSubscriptionLinks(user.subscription);
+        renderNodeLinks(user.links);
+        showDashboard();
+    }
+
+    async function fetchCurrentUser() {
+        try {
+            const response = await fetch('/api/me', {
+                credentials: 'include',
+            });
+            if (response.ok) {
+                const data = await response.json();
+                state.user = data;
+                updateDashboard(data);
+            } else {
+                state.user = null;
+                showLogin();
+            }
+        } catch (error) {
+            console.error('Failed to fetch user profile', error);
+            showLogin();
+            showToast('Unable to contact the server. Please try again.');
+        }
+    }
+
+    async function sendMagicLink(email) {
+        selectors.magicSubmit.disabled = true;
+        try {
+            const response = await fetch('/api/auth/magic-link', {
+                method: 'POST',
+                credentials: 'include',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email }),
+            });
+            if (response.ok) {
+                showToast('Check your inbox for the sign-in link.');
+            } else {
+                showToast('Unable to process your request right now.');
+            }
+        } catch (error) {
+            console.error('Failed to request magic link', error);
+            showToast('Unable to send the email. Please try again.');
+        } finally {
+            selectors.magicSubmit.disabled = false;
+        }
+    }
+
+    async function logout() {
+        try {
+            await fetch('/api/auth/logout', {
+                method: 'POST',
+                credentials: 'include',
+            });
+        } finally {
+            state.user = null;
+            showLogin();
+            showToast('You have been signed out.');
+        }
+    }
+
+    selectors.magicForm.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const formData = new FormData(event.currentTarget);
+        const email = formData.get('email');
+        if (typeof email === 'string' && email.trim()) {
+            sendMagicLink(email.trim());
+        } else {
+            showToast('Enter a valid email address to continue.');
+        }
+    });
+
+    selectors.logoutBtn.addEventListener('click', () => logout());
+
+    window.addEventListener('load', () => {
+        const params = getQueryParams();
+        if (params.login === 'invalid') {
+            showToast('The sign-in link is invalid or has already been used.');
+        } else if (params.login === 'expired') {
+            showToast('The sign-in link has expired. Request a new one.');
+        } else if (params.login === 'success') {
+            showToast('You are now signed in.');
+        }
+        clearQueryParams();
+        fetchCurrentUser();
+    });
+</script>
+</body>
+</html>
