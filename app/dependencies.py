@@ -88,8 +88,8 @@ def get_validated_sub(
 
 
 def get_current_portal_user(
-        session_token: str | None = Cookie(default=None, alias=USER_SESSION_COOKIE_NAME),
-        db: Session = Depends(get_db)
+    session_token: str | None = Cookie(default=None, alias=USER_SESSION_COOKIE_NAME),
+    db: Session = Depends(get_db)
 ) -> UserResponse:
     if not session_token:
         raise HTTPException(status_code=401, detail="Not authenticated")
