@@ -76,19 +76,23 @@ def request_magic_link(
         base = str(request.base_url).rstrip("/")
         login_url = f"{base}/auth/magic?token={token}"
 
-    def _send_email() -> None:
+    # Capture primitives before scheduling background task to avoid accessing a detached ORM instance
+    _email = dbuser.email
+    _username = dbuser.username
+
+    def _send_email(email: str, username: str) -> None:
         success = email_notifications.send_magic_link(
-            email=dbuser.email,
-            username=dbuser.username,
+            email=email,
+            username=username,
             link=login_url,
             expires_in_minutes=expires_in,
         )
         if success:
-            logger.info("Sent magic link to %s", dbuser.email)
+            logger.info("Sent magic link to %s", email)
         else:
-            logger.warning("Magic link email was not sent to %s", dbuser.email)
+            logger.warning("Magic link email was not sent to %s", email)
 
-    bg.add_task(_send_email)
+    bg.add_task(_send_email, _email, _username)
 
     return MessageResponse(detail=GENERIC_MESSAGE)
 
